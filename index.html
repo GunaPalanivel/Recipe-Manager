@@ -1,48 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Manage your recipes with ease - A production-grade recipe manager app">
-    <meta name="theme-color" content="#4F46E5">
-    <title>Recipe Manager | Home</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Recipe Manager Home Page" />
+  <title>Recipe Manager | Home</title>
 
-    <!-- Preload critical resources -->
-    <link rel="preload" href="/src/css/utils/variables.css" as="style">
-    <link rel="preload" href="/src/js/main.js" as="script" type="module">
-
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="/src/css/utils/reset.css">
-    <link rel="stylesheet" href="/src/css/utils/variables.css">
-    <link rel="stylesheet" href="/src/css/main.css">
-    <link rel="stylesheet" href="/src/css/components/card.css">
-    <link rel="stylesheet" href="/src/css/components/filters.css">
+  <link rel="stylesheet" href="/src/css/utils/reset.css" />
+  <link rel="stylesheet" href="/src/css/utils/variables.css" />
+  <link rel="stylesheet" href="/src/css/main.css" />
+  <link rel="stylesheet" href="/src/css/components/card.css" />
+  <link rel="stylesheet" href="/src/css/components/filters.css" />
 </head>
-
 <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <header class="header">
-        <div class="container">
-            <h1 class="header__title">🍳 Recipe Manager</h1>
-            <nav class="header__nav" aria-label="Main navigation">
-                <a href="/pages/form.html" class="btn btn--primary">+ Add Recipe</a>
-            </nav>
-        </div>
-    </header>
+  <header class="header" role="banner">
+    <div class="container header__container">
+      <h1 class="header__title">🍳 Recipe Manager</h1>
+      <nav class="header__nav" aria-label="Main navigation">
+        <a href="/pages/form.html" class="btn btn--primary header__add-recipe-btn">+ Add Recipe</a>
+      </nav>
+    </div>
+  </header>
 
-    <main id="main-content" class="main">
-        <!-- Content will be added in Phase 2 -->
-    </main>
+  <main id="main-content" class="main" role="main" tabindex="-1">
+    <section class="filters" aria-label="Recipe search and filters">
+      <input
+        type="search"
+        id="search-input"
+        class="filters__search"
+        placeholder="Search recipes..."
+        aria-controls="recipe-list"
+        aria-describedby="search-desc" />
+      <div id="search-desc" class="sr-only">Search recipes by title</div>
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Recipe Manager. Built with ❤️ using Vanilla JS.</p>
-        </div>
-    </footer>
+      <select id="difficulty-filter" class="filters__select" aria-label="Filter recipes by difficulty">
+        <option value="all" selected>All Difficulties</option>
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+    </section>
 
-    <script type="module" src="/src/js/main.js"></script>
+    <section
+      id="recipe-list"
+      class="recipe-grid"
+      aria-live="polite"
+      aria-label="Recipe list"
+      role="region">
+      <!-- Recipe cards will be dynamically rendered here -->
+    </section>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container footer__container">
+      <p>© 2025 Recipe Manager. Built with ❤️ using Vanilla JavaScript.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="/src/js/main.js"></script>
 </body>
-
 </html>

@@ -6,18 +6,25 @@
  *
  * Performance target: First Contentful Paint < 1.5s
  *
- * @author Your Name
+ * @author Guna Palanivel
  * @version 1.0.0
  */
 
 "use strict";
 
 // Imports will be added in subsequent phases
-// import { StorageManager } from './modules/storage.js';
-// import { UIManager } from './modules/ui.js';
-// import { FilterManager } from './modules/filters.js';
-// import { PerformanceMonitor } from './modules/performance.js';
+import { StorageManager } from "./modules/storage.js";
+import { UIManager } from "./modules/ui.js";
+import { sampleRecipes } from "./data/sample-recipes.js";
 
-console.log("🍳 Recipe Manager initialized - Phase 0");
+const storage = new StorageManager();
+storage.seed(sampleRecipes);
 
-// Application initialization will be added in Phase 2
+const uiManager = new UIManager({ recipeListId: "recipe-list" });
+
+function loadAndRender() {
+  const recipes = storage.getAll();
+  uiManager.renderRecipeList(recipes);
+}
+
+loadAndRender();

@@ -5,4 +5,94 @@
  * Implementation in Phase 2
  */
 
-/* Placeholder - will be implemented in Phase 2 */
+/**
+ * Recipe Card Component Styles
+ * BEM naming convention
+ */
+
+.recipe-card {
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow var(--transition-fast);
+}
+
+.recipe-card:hover,
+.recipe-card:focus-within {
+  box-shadow: var(--shadow-md);
+  outline: none;
+}
+
+.recipe-card__image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+.recipe-card__content {
+  padding: var(--space-4);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.recipe-card__title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-900);
+  margin-bottom: var(--space-2);
+  line-height: 1.2;
+}
+
+.recipe-card__description {
+  font-size: var(--font-size-base);
+  color: var(--color-gray-700);
+  flex-grow: 1;
+  margin-bottom: var(--space-3);
+}
+
+.recipe-card__meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-500);
+  gap: var(--space-2);
+}
+
+.recipe-card__difficulty {
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+}
+
+.recipe-card__difficulty--easy {
+  color: var(--color-easy);
+}
+
+.recipe-card__difficulty--medium {
+  color: var(--color-medium);
+}
+
+.recipe-card__difficulty--hard {
+  color: var(--color-hard);
+}
+
+/* Recipe Grid Styles */
+
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-6);
+  padding: var(--space-6) var(--space-4);
+}
+
+/* Mobile First */
+@media (min-width: 640px) {
+  .recipe-grid {
+    padding-inline: var(--space-8);
+  }
+}
