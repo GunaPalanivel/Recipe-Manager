@@ -1,8 +1,24 @@
-import { StorageManager } from "./storage.js";
-import { createRecipe } from "./recipe.js";
+import { StorageManager } from "./modules/storage.js";
+import { createRecipe } from "./modules/recipe.js";
+import { CRUDManager } from "./crud.js";
 
 const storage = new StorageManager();
 const detailContainer = document.querySelector(".recipe-detail");
+
+const crud = new CRUDManager();
+
+async function handleDelete() {
+  if (confirm("Are you sure you want to delete this recipe?")) {
+    const id = getRecipeIdFromURL();
+    try {
+      await crud.deleteRecipe(id);
+      alert("Recipe deleted");
+      window.location.href = "/";
+    } catch (error) {
+      alert("Delete failed: " + error.message);
+    }
+  }
+}
 
 function getRecipeIdFromURL() {
   const urlParams = new URLSearchParams(window.location.search);

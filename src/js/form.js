@@ -1,10 +1,12 @@
 import { StorageManager } from "./modules/storage.js";
-import { Recipe, createRecipe } from "./modules/recipe.js";
+import { createRecipe } from "./modules/recipe.js";
 import { ValidationManager } from "./modules/validation.js";
 import { debounce } from "./utils/helpers.js";
+import { CRUDManager } from "./crud.js";
 
 const storage = new StorageManager();
 const validator = new ValidationManager("recipe-form");
+const crud = new CRUDManager();
 
 const ingredientsList = document.getElementById("ingredients-list");
 const stepsList = document.getElementById("steps-list");
@@ -15,7 +17,6 @@ const imagePreview = document.getElementById("image-preview");
 const form = document.getElementById("recipe-form");
 const cancelBtn = document.getElementById("cancel-btn");
 
-// Dynamic field management
 function createIngredientField(value = "") {
   const div = document.createElement("div");
   div.className = "form__dynamic-item";
@@ -58,7 +59,6 @@ addStepBtn.addEventListener("click", () => {
   saveDraft();
 });
 
-// Collect form data
 function collectFormData() {
   const ingredients = Array.from(ingredientsList.querySelectorAll("input"))
     .map((inp) => inp.value.trim())
@@ -80,7 +80,6 @@ function collectFormData() {
   };
 }
 
-// Image preview
 const debouncedImagePreview = debounce(() => {
   const url = imageURLInput.value.trim();
   imagePreview.innerHTML = "";
@@ -108,13 +107,11 @@ imageURLInput.addEventListener("input", debouncedImagePreview);
 
 const DRAFT_KEY = "recipe_form_draft";
 
-// Save draft to localStorage
 function saveDraft() {
   const draft = collectFormData();
   localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
 }
 
-// Load draft from localStorage
 function loadDraft() {
   const draft = localStorage.getItem(DRAFT_KEY);
   if (draft) {
@@ -127,7 +124,6 @@ function loadDraft() {
       document.getElementById("difficulty").value = data.difficulty || "";
       document.getElementById("imageURL").value = data.imageURL || "";
 
-      // Populate ingredients
       ingredientsList.innerHTML = "";
       if (data.ingredients && data.ingredients.length > 0) {
         data.ingredients.forEach((ing) =>
@@ -137,7 +133,6 @@ function loadDraft() {
         ingredientsList.appendChild(createIngredientField());
       }
 
-      // Populate steps
       stepsList.innerHTML = "";
       if (data.steps && data.steps.length > 0) {
         data.steps.forEach((step) =>
@@ -152,12 +147,10 @@ function loadDraft() {
   }
 }
 
-// Auto-save on input
 const debouncedSaveDraft = debounce(saveDraft, 1000);
 form.addEventListener("input", debouncedSaveDraft);
 
-// Form submission
-form.addEventListener("submit", (event) => {
+form.addEventListener("submit", async (event) => {
   event.preventDefault();
   const formData = collectFormData();
 
@@ -165,20 +158,26 @@ form.addEventListener("submit", (event) => {
     validator.errors.forEach((error, field) => {
       validator.displayFieldError(field, error);
     });
-    alert("Please fix the errors before submitting");
+    alert("Please fix the errors before submitting.");
     return;
   }
 
   try {
-    const recipe = createRecipe(formData);
-    if (recipe) {
-      storage.save(recipe);
-      localStorage.removeItem(DRAFT_KEY);
-      alert("Recipe saved successfully!");
-      window.location.href = "/";
+    // If editing, update; else create
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get("id");
+
+    if (id) {
+      await crud.updateRecipe(id, formData);
+      alert("Recipe updated successfully!");
+    } else {
+      await crud.createRecipe(formData);
+      alert("Recipe created successfully!");
     }
+    localStorage.removeItem(DRAFT_KEY);
+    window.location.href = "/";
   } catch (error) {
-    alert("Failed to save recipe: " + error.message);
+    alert("Error saving recipe: " + error.message);
   }
 });
 
@@ -189,5 +188,45 @@ cancelBtn.addEventListener("click", () => {
   }
 });
 
-// Initialize
-loadDraft();
+function prepopulateForm(id) {
+  const existingRecipe = crud.getRecipeById(id);
+  if (!existingRecipe) {
+    alert("Recipe not found");
+    window.location.href = "/";
+    return;
+  }
+
+  document.getElementById("form-title").textContent = "Edit Recipe";
+
+  document.getElementById("title").value = existingRecipe.title;
+  document.getElementById("description").value = existingRecipe.description;
+  document.getElementById("prepTime").value = existingRecipe.prepTime;
+  document.getElementById("cookTime").value = existingRecipe.cookTime;
+  document.getElementById("difficulty").value = existingRecipe.difficulty;
+  document.getElementById("imageURL").value = existingRecipe.imageURL || "";
+
+  ingredientsList.innerHTML = "";
+  existingRecipe.ingredients.forEach((ing) =>
+    ingredientsList.appendChild(createIngredientField(ing))
+  );
+
+  stepsList.innerHTML = "";
+  existingRecipe.steps.forEach((step) =>
+    stepsList.appendChild(createStepField(step))
+  );
+
+  // Trigger image preview
+  debouncedImagePreview();
+}
+
+function initForm() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get("id");
+  if (id) {
+    prepopulateForm(id);
+  } else {
+    loadDraft();
+  }
+}
+
+initForm();
