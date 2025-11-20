@@ -83,14 +83,12 @@ export class UIManager {
 
     meta.append(prepCook, difficulty);
     content.append(title, description, meta);
-
     card.append(img, content);
 
-    // Add click handler for navigation
+    // Navigation & accessibility
     card.addEventListener("click", () => {
       window.location.href = `/pages/detail.html?id=${encodeURIComponent(recipe.id)}`;
     });
-    // Keyboard navigation
     card.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
@@ -102,7 +100,6 @@ export class UIManager {
   }
 
   renderRecipeList(recipes) {
-    // Batch DOM insertion to optimize reflow
     this.recipeListEl.innerHTML = ""; // clear existing
     const fragment = document.createDocumentFragment();
     recipes.forEach((recipe) => {
@@ -110,5 +107,23 @@ export class UIManager {
       fragment.appendChild(card);
     });
     this.recipeListEl.appendChild(fragment);
+  }
+
+  // New Method: Show count of filtered results
+  renderFilterCount(count, total) {
+    let countEl = document.getElementById("filter-result-count");
+    if (!countEl) {
+      countEl = document.createElement("p");
+      countEl.id = "filter-result-count";
+      countEl.className = "filters__result-count";
+      this.recipeListEl.parentElement.insertBefore(countEl, this.recipeListEl);
+    }
+    countEl.textContent = `Showing ${count} of ${total} recipes`;
+  }
+
+  // New Method: Show empty state message
+  renderEmptyState() {
+    this.recipeListEl.innerHTML =
+      '<p class="filters__empty-state">No recipes match your filter criteria.</p>';
   }
 }
