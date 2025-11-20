@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage your recipes with ease - A production-grade recipe manager app">
+    <meta name="theme-color" content="#4F46E5">
+    <title>Recipe Manager | Home</title>
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/src/css/utils/variables.css" as="style">
+    <link rel="preload" href="/src/js/main.js" as="script" type="module">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/src/css/utils/reset.css">
+    <link rel="stylesheet" href="/src/css/utils/variables.css">
+    <link rel="stylesheet" href="/src/css/main.css">
+    <link rel="stylesheet" href="/src/css/components/card.css">
+    <link rel="stylesheet" href="/src/css/components/filters.css">
+</head>
+
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header class="header">
+        <div class="container">
+            <h1 class="header__title">🍳 Recipe Manager</h1>
+            <nav class="header__nav" aria-label="Main navigation">
+                <a href="/pages/form.html" class="btn btn--primary">+ Add Recipe</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content" class="main">
+        <!-- Content will be added in Phase 2 -->
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Recipe Manager. Built with ❤️ using Vanilla JS.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="/src/js/main.js"></script>
+</body>
+
+</html>

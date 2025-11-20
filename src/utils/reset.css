@@ -1,0 +1,92 @@
+/**
+ * CSS Reset - Modern normalization
+ * 
+ * Based on modern-normalize + custom resets
+ * Removes browser inconsistencies
+ */
+
+/* Box sizing reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Prevent font size inflation */
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+  scroll-behavior: smooth;
+}
+
+/* Remove default margin */
+body,
+h1, h2, h3, h4, h5, h6,
+p, figure, blockquote, dl, dd {
+  margin: 0;
+}
+
+/* Remove list styles */
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+}
+
+/* Core body defaults */
+body {
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Remove button styles */
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+/* Remove link underlines */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Image defaults */
+img,
+picture,
+svg {
+  max-width: 100%;
+  display: block;
+}
+
+/* Focus visible for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Skip link for accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--color-primary);
+  color: white;
+  padding: 8px;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  top: 0;
+}
