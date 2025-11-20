@@ -15,6 +15,7 @@
 </head>
 
 <body>
+  <!-- Error notification banner -->
   <div id="error-notification" role="alert" aria-live="assertive"
     style="display:none; color:red; padding:10px; background:#fee;"></div>
 
@@ -24,7 +25,8 @@
     <div class="container header__container">
       <h1 class="header__title">🍳 Recipe Manager</h1>
       <nav class="header__nav" aria-label="Main navigation">
-        <a href="/pages/form.html" class="btn btn--primary header__add-recipe-btn">+ Add Recipe</a>
+        <a href="/pages/form.html" class="btn btn--primary header__add-recipe-btn" aria-label="Add new recipe">+ Add
+          Recipe</a>
       </nav>
     </div>
   </header>
@@ -42,6 +44,9 @@
         <option value="hard">Hard</option>
       </select>
     </section>
+
+    <!-- Filter result count (dynamically populated) -->
+    <div id="filter-result-count" class="filters__result-count" aria-live="polite" role="status"></div>
 
     <section id="recipe-list" class="recipe-grid" aria-live="polite" aria-label="Recipe list" role="region">
       <!-- Recipe cards will be dynamically rendered here -->

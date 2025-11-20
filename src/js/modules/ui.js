@@ -35,7 +35,10 @@ export class UIManager {
   createRecipeCard(recipe) {
     const card = document.createElement("article");
     card.className = "recipe-card";
+
+    // Keyboard accessibility
     card.tabIndex = 0;
+    card.setAttribute("role", "region");
     card.setAttribute("aria-label", `Recipe: ${recipe.title}`);
 
     const img = document.createElement("img");
@@ -79,9 +82,11 @@ export class UIManager {
     content.append(title, description, meta);
     card.append(img, content);
 
-    // Navigation & accessibility
+    // Navigation & keyboard click support
     card.addEventListener("click", () => {
-      window.location.href = `/pages/detail.html?id=${encodeURIComponent(recipe.id)}`;
+      window.location.href = `/pages/detail.html?id=${encodeURIComponent(
+        recipe.id
+      )}`;
     });
     card.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {

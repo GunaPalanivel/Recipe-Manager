@@ -15,6 +15,7 @@
 </head>
 
 <body>
+    <!-- Error notification banner -->
     <div id="error-notification" role="alert" aria-live="assertive"
         style="display:none; color:red; padding:10px; background:#fee;"></div>
 
@@ -22,14 +23,14 @@
 
     <header class="header" role="banner">
         <div class="container header__container">
-            <nav aria-label="Breadcrumb">
-                <a href="/" class="breadcrumb-link">&larr; Back to Recipes</a>
+            <nav aria-label="Breadcrumb navigation">
+                <a href="/" class="breadcrumb-link" aria-label="Go back to recipe list">&larr; Back to Recipes</a>
             </nav>
         </div>
     </header>
 
     <main id="main-content" class="main" role="main" tabindex="-1">
-        <article class="recipe-detail" aria-live="polite" aria-label="Recipe details">
+        <article class="recipe-detail" aria-live="polite" aria-label="Recipe details" role="article">
             <!-- Recipe details dynamically inserted here -->
         </article>
     </main>

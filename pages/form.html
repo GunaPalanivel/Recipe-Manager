@@ -14,12 +14,16 @@
 </head>
 
 <body>
+    <!-- Error notification banner -->
+    <div id="error-notification" role="alert" aria-live="assertive"
+        style="display:none; color:red; padding:10px; background:#fee;"></div>
+
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <header class="header" role="banner">
         <div class="container header__container">
-            <nav aria-label="Breadcrumb">
-                <a href="/" class="breadcrumb-link">&larr; Back to Recipes</a>
+            <nav aria-label="Breadcrumb navigation">
+                <a href="/" class="breadcrumb-link" aria-label="Go back to recipe list">&larr; Back to Recipes</a>
             </nav>
         </div>
     </header>
@@ -28,71 +32,78 @@
         <div class="form-container">
             <h1 class="form__title" id="form-title">Add New Recipe</h1>
 
-            <form id="recipe-form" class="recipe-form" novalidate>
+            <form id="recipe-form" class="recipe-form" novalidate aria-labelledby="form-title">
                 <!-- Title -->
                 <div class="form__field">
-                    <label for="title" class="form__label">Recipe Title <span class="required">*</span></label>
+                    <label for="title" class="form__label">Recipe Title <span class="required"
+                            aria-label="required">*</span></label>
                     <input type="text" id="title" name="title" class="form__input" required minlength="3"
                         maxlength="100" aria-required="true" aria-describedby="title-error" />
-                    <span id="title-error" class="form__error" role="alert"></span>
+                    <span id="title-error" class="form__error" role="alert" aria-live="polite"></span>
                 </div>
 
                 <!-- Description -->
                 <div class="form__field">
-                    <label for="description" class="form__label">Description <span class="required">*</span></label>
+                    <label for="description" class="form__label">Description <span class="required"
+                            aria-label="required">*</span></label>
                     <textarea id="description" name="description" class="form__textarea" required minlength="10"
                         maxlength="500" rows="4" aria-required="true" aria-describedby="description-error"></textarea>
-                    <span id="description-error" class="form__error" role="alert"></span>
+                    <span id="description-error" class="form__error" role="alert" aria-live="polite"></span>
                 </div>
 
                 <!-- Ingredients -->
                 <div class="form__field">
-                    <label class="form__label">Ingredients <span class="required">*</span></label>
-                    <div id="ingredients-list" class="form__dynamic-list">
-                        <div class="form__dynamic-item">
-                            <input type="text" class="form__input" placeholder="e.g., 2 cups flour" required />
+                    <label class="form__label">Ingredients <span class="required" aria-label="required">*</span></label>
+                    <div id="ingredients-list" class="form__dynamic-list" role="list" aria-label="Ingredient list">
+                        <div class="form__dynamic-item" role="listitem">
+                            <input type="text" class="form__input" placeholder="e.g., 2 cups flour" required
+                                aria-label="Ingredient 1" />
                             <button type="button" class="btn-remove" aria-label="Remove ingredient">−</button>
                         </div>
                     </div>
-                    <button type="button" id="add-ingredient" class="btn btn--secondary">+ Add Ingredient</button>
-                    <span id="ingredients-error" class="form__error" role="alert"></span>
+                    <button type="button" id="add-ingredient" class="btn btn--secondary"
+                        aria-label="Add another ingredient">+ Add Ingredient</button>
+                    <span id="ingredients-error" class="form__error" role="alert" aria-live="polite"></span>
                 </div>
 
                 <!-- Steps -->
                 <div class="form__field">
-                    <label class="form__label">Cooking Steps <span class="required">*</span></label>
-                    <div id="steps-list" class="form__dynamic-list">
-                        <div class="form__dynamic-item">
-                            <textarea class="form__textarea" rows="2" placeholder="Describe this step"
-                                required></textarea>
+                    <label class="form__label">Cooking Steps <span class="required"
+                            aria-label="required">*</span></label>
+                    <div id="steps-list" class="form__dynamic-list" role="list" aria-label="Cooking steps list">
+                        <div class="form__dynamic-item" role="listitem">
+                            <textarea class="form__textarea" rows="2" placeholder="Describe this step" required
+                                aria-label="Step 1"></textarea>
                             <button type="button" class="btn-remove" aria-label="Remove step">−</button>
                         </div>
                     </div>
-                    <button type="button" id="add-step" class="btn btn--secondary">+ Add Step</button>
-                    <span id="steps-error" class="form__error" role="alert"></span>
+                    <button type="button" id="add-step" class="btn btn--secondary" aria-label="Add another step">+ Add
+                        Step</button>
+                    <span id="steps-error" class="form__error" role="alert" aria-live="polite"></span>
                 </div>
 
                 <!-- Prep Time -->
                 <div class="form__field">
-                    <label for="prepTime" class="form__label">Preparation Time (minutes) <span
-                            class="required">*</span></label>
+                    <label for="prepTime" class="form__label">Preparation Time (minutes) <span class="required"
+                            aria-label="required">*</span></label>
                     <input type="number" id="prepTime" name="prepTime" class="form__input" min="1" max="999" required
                         aria-required="true" aria-describedby="prepTime-error" />
-                    <span id="prepTime-error" class="form__error" role="alert"></span>
+                    <span id="prepTime-error" class="form__error" role="alert" aria-live="polite"></span>
                 </div>
 
                 <!-- Cook Time -->
                 <div class="form__field">
-                    <label for="cookTime" class="form__label">Cooking Time (minutes) <span
-                            class="required">*</span></label>
+                    <label for="cookTime" class="form__label">Cooking Time (minutes) <span class="required"
+                            aria-label="required">*</span></label>
                     <input type="number" id="cookTime" name="cookTime" class="form__input" min="1" max="999" required
                         aria-required="true" aria-describedby="cookTime-error" />
-                    <span id="cookTime-error" class="form__error" role="alert"></span>
+                    <span id="cookTime-error" class="form__error" role="alert" aria-live="polite"></span>
                 </div>
 
                 <!-- Difficulty -->
                 <div class="form__field">
-                    <label for="difficulty" class="form__label">Difficulty <span class="required">*</span></label>
+                    <label for="difficulty" class="form__label">Difficulty <span class="required"
+                            aria-label="required">*</span></label>
                     <select id="difficulty" name="difficulty" class="form__select" required aria-required="true"
                         aria-describedby="difficulty-error">
                         <option value="">Select difficulty</option>
@@ -100,7 +111,7 @@
                         <option value="medium">Medium</option>
                         <option value="hard">Hard</option>
                     </select>
-                    <span id="difficulty-error" class="form__error" role="alert"></span>
+                    <span id="difficulty-error" class="form__error" role="alert" aria-live="polite"></span>
                 </div>
 
                 <!-- Image URL -->
@@ -108,14 +119,16 @@
                     <label for="imageURL" class="form__label">Image URL (optional)</label>
                     <input type="url" id="imageURL" name="imageURL" class="form__input"
                         placeholder="https://example.com/image.jpg" aria-describedby="imageURL-error" />
-                    <span id="imageURL-error" class="form__error" role="alert"></span>
-                    <div id="image-preview" class="form__image-preview"></div>
+                    <span id="imageURL-error" class="form__error" role="alert" aria-live="polite"></span>
+                    <div id="image-preview" class="form__image-preview" aria-live="polite" aria-label="Image preview">
+                    </div>
                 </div>
 
                 <!-- Submit Buttons -->
                 <div class="form__actions">
-                    <button type="submit" class="btn btn--primary">Save Recipe</button>
-                    <button type="button" id="cancel-btn" class="btn btn--secondary">Cancel</button>
+                    <button type="submit" class="btn btn--primary" aria-label="Save recipe">Save Recipe</button>
+                    <button type="button" id="cancel-btn" class="btn btn--secondary"
+                        aria-label="Cancel and return to home">Cancel</button>
                 </div>
             </form>
         </div>
