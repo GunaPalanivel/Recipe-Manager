@@ -6,7 +6,7 @@
  *
  * Performance target: First Contentful Paint < 1.5s
  *
- * @author Your Name
+ * @author Guna Palanivel
  * @version 1.0.0
  */
 
