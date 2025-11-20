@@ -5,8 +5,8 @@
  */
 
 /* Import utilities */
-@import './utils/reset.css';
-@import './utils/variables.css';
+@import "./utils/reset.css";
+@import "./utils/variables.css";
 
 /* Global styles */
 body {
@@ -111,4 +111,76 @@ body {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
+}
+
+/* Responsive Breakpoints */
+
+/* Base mobile styles applied throughout */
+
+/* Small screens - up to 639px */
+@media (max-width: 639px) {
+  .container {
+    padding-inline: var(--space-4);
+  }
+}
+
+/* Medium screens - from 640px to 1023px */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .container {
+    padding-inline: var(--space-6);
+  }
+  .recipe-grid {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+}
+
+/* Large screens - from 1024px upwards */
+@media (min-width: 1024px) {
+  .container {
+    max-width: var(--container-max-width);
+    padding-inline: var(--space-8);
+  }
+  .recipe-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+/* Commit #2: style(responsive) - Optimize touch targets */
+
+/* Minimum touch area of 44x44px per WCAG */
+button,
+a.btn,
+.btn-remove {
+  min-width: 44px;
+  min-height: 44px;
+  padding: var(--space-2);
+  touch-action: manipulation; /* For mobile-friendly interaction */
+  user-select: none;
+}
+
+/* Increase clickable areas for inputs */
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+/* Ensure buttons and links have clear focus */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+/* Remove browser-default focus for mouse interactions */
+:focus:not(:focus-visible) {
+  outline: none;
 }
