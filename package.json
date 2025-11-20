@@ -1,0 +1,55 @@
+{
+  "name": "recipe-manager",
+  "version": "1.0.0",
+  "description": "A production-grade vanilla JavaScript recipe management application with localStorage persistence",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint src/**/*.js",
+    "format": "prettier --write \"src/**/*.{js,css,html}\"",
+    "validate": "npm run lint && npm run test:coverage"
+  },
+  "keywords": [
+    "recipe-manager",
+    "vanilla-javascript",
+    "localStorage",
+    "crud-app",
+    "responsive-design",
+    "accessibility",
+    "performance-optimized"
+  ],
+  "author": "Your Name <Guna Palanivel>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GunaPalanivel/Recipe-Manager.git"
+  },
+  "bugs": {
+    "url": "https://github.com/GunaPalanivel/Recipe-Manager/issues"
+  },
+  "homepage": "https://github.com/GunaPalanivel/Recipe-Manager#readme",
+  "devDependencies": {
+    "@vitest/ui": "^1.0.4",
+    "eslint": "^8.55.0",
+    "jsdom": "^23.0.1",
+    "prettier": "^3.1.1",
+    "vite": "^5.0.7",
+    "vitest": "^1.0.4",
+    "@vitest/coverage-v8": "^1.0.4"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "last 2 Safari versions",
+    "last 2 Edge versions"
+  ]
+}
