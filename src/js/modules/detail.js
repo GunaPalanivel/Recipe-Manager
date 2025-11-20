@@ -1,5 +1,5 @@
-import { StorageManager } from "./modules/storage.js";
-import { createRecipe } from "./modules/recipe.js";
+import { StorageManager } from "./storage.js";
+import { createRecipe } from "./recipe.js";
 
 const storage = new StorageManager();
 const detailContainer = document.querySelector(".recipe-detail");

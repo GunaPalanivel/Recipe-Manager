@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -12,6 +13,7 @@
   <link rel="stylesheet" href="/src/css/components/card.css" />
   <link rel="stylesheet" href="/src/css/components/filters.css" />
 </head>
+
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
@@ -26,13 +28,8 @@
 
   <main id="main-content" class="main" role="main" tabindex="-1">
     <section class="filters" aria-label="Recipe search and filters">
-      <input
-        type="search"
-        id="search-input"
-        class="filters__search"
-        placeholder="Search recipes..."
-        aria-controls="recipe-list"
-        aria-describedby="search-desc" />
+      <input type="search" id="search-input" class="filters__search" placeholder="Search recipes..."
+        aria-controls="recipe-list" aria-describedby="search-desc" />
       <div id="search-desc" class="sr-only">Search recipes by title</div>
 
       <select id="difficulty-filter" class="filters__select" aria-label="Filter recipes by difficulty">
@@ -43,12 +40,7 @@
       </select>
     </section>
 
-    <section
-      id="recipe-list"
-      class="recipe-grid"
-      aria-live="polite"
-      aria-label="Recipe list"
-      role="region">
+    <section id="recipe-list" class="recipe-grid" aria-live="polite" aria-label="Recipe list" role="region">
       <!-- Recipe cards will be dynamically rendered here -->
     </section>
   </main>
@@ -59,6 +51,8 @@
     </div>
   </footer>
 
+  <script type="module" src="/src/js/detail.js"></script>
   <script type="module" src="/src/js/main.js"></script>
 </body>
+
 </html>
