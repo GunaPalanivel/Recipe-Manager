@@ -1,70 +1,125 @@
 /**
- * StorageManager: robust abstraction for localStorage with performance monitoring.
- *
- * Big O:
- *  - get: O(1) - direct key lookup
- *  - set: O(n) - JSON serialization where n=size of data
- *  - clear: O(1) - single removeItem
+ * StorageManager - localStorage abstraction with caching and error handling
+ * @module storage
  */
+
+import { STORAGE_KEY } from '../utils/constants.js';
+
 export class StorageManager {
-  /**
-   * @param {string} key - localStorage key
-   */
-  constructor(key) {
-    this.key = key;
+  constructor() {
+    // In-memory cache for recipes
+    this.cache = new Map();
+    this.isCacheInitialized = false;
   }
 
   /**
-   * Checks if localStorage is available & writable
-   * @returns {boolean}
+   * Initialize cache from localStorage
    */
-  available() {
-    try {
-      const testKey = '__storage_test__';
-      localStorage.setItem(testKey, testKey);
-      localStorage.removeItem(testKey);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
+  _initCache() {
+    if (this.isCacheInitialized) return;
 
-  /**
-   * Load and parse stored data, handles corruption by resetting data
-   * @returns {Array|Object} parsed JSON or empty array
-   */
-  load() {
+    const startMark = 'storage_get_start';
+    performance.mark(startMark);
+
+    let stored = null;
     try {
-      const raw = localStorage.getItem(this.key);
-      if (!raw) return [];
-      return JSON.parse(raw);
+      stored = localStorage.getItem(STORAGE_KEY);
+      if (!stored) {
+        this.cache = new Map();
+      } else {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+          this.cache = new Map(parsed.map(recipe => [recipe.id, recipe]));
+        } else {
+          this.cache = new Map();
+        }
+      }
     } catch (error) {
-      // Corrupted data: reset storage key to empty state
-      console.warn(`Storage key "${this.key}" corrupted. Resetting data.`);
-      localStorage.removeItem(this.key);
-      return [];
+      console.error('localStorage getItem parsing error:', error);
+      // Graceful recovery by clearing corrupted data
+      this.cache = new Map();
+      localStorage.removeItem(STORAGE_KEY);
     }
+
+    this.isCacheInitialized = true;
+
+    performance.mark('storage_get_end');
+    performance.measure('storage_get_duration', startMark, 'storage_get_end');
   }
 
   /**
-   * Save data serialized as JSON string; returns success boolean
-   * @param {Object|Array} data 
-   * @returns {boolean} success
+   * Get all recipes as array
+   * @returns {Array}
    */
-  save(data) {
-    try {
-      localStorage.setItem(this.key, JSON.stringify(data));
-      return true;
-    } catch (error) {
-      console.error(`Failed to save data to localStorage key "${this.key}": ${error.message}`);
-      return false;
-    }
+  getAll() {
+    this._initCache();
+    return Array.from(this.cache.values());
   }
 
   /**
-   * Remove storage key entirely
+   * Save current cache to localStorage
+   */
+  _persistCache() {
+    const startMark = 'storage_set_start';
+    performance.mark(startMark);
+
+    try {
+      const data = JSON.stringify(Array.from(this.cache.values()));
+      localStorage.setItem(STORAGE_KEY, data);
+    } catch (error) {
+      console.error('localStorage setItem error:', error);
+      throw new Error('Failed to write recipes data');
+    }
+
+    performance.mark('storage_set_end');
+    performance.measure('storage_set_duration', startMark, 'storage_set_end');
+  }
+
+  /**
+   * Add or update a recipe
+   * @param {Object} recipe
+   */
+  save(recipe) {
+    if (!recipe || !recipe.id) {
+      throw new Error('Recipe must have an id');
+    }
+    this._initCache();
+    this.cache.set(recipe.id, recipe);
+    this._persistCache();
+  }
+
+  /**
+   * Delete a recipe by ID
+   * @param {string} id
+   */
+  remove(id) {
+    if (!id) throw new Error('ID is required to delete recipe');
+    this._initCache();
+    this.cache.delete(id);
+    this._persistCache();
+  }
+
+  /**
+   * Clear all recipes from storage
    */
   clear() {
-    localStorage.removeItem(this.key);
+    this.cache.clear();
+    localStorage.removeItem(STORAGE_KEY);
+  }
+
+  /**
+   * Seed initial recipes if storage empty
+   * @param {Array} recipes
+   */
+  seed(recipes) {
+    this._initCache();
+    if (this.cache.size === 0 && Array.isArray(recipes) && recipes.length > 0) {
+      recipes.forEach(recipe => {
+        if (recipe.id) {
+          this.cache.set(recipe.id, recipe);
+        }
+      });
+      this._persistCache();
+    }
   }
 }

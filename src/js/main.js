@@ -17,6 +17,11 @@
 // import { UIManager } from './modules/ui.js';
 // import { FilterManager } from './modules/filters.js';
 // import { PerformanceMonitor } from './modules/performance.js';
+import { StorageManager } from './modules/storage.js';
+import { sampleRecipes } from './data/sample-recipes.js';
+
+const storage = new StorageManager();
+storage.seed(sampleRecipes);
 
 console.log("🍳 Recipe Manager initialized - Phase 0");
 
