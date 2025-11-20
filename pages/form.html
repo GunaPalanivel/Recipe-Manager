@@ -2,31 +2,130 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Add or edit recipe">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Add or Edit Recipe" />
     <title>Add Recipe | Recipe Manager</title>
 
-    <link rel="stylesheet" href="/src/css/utils/reset.css">
-    <link rel="stylesheet" href="/src/css/utils/variables.css">
-    <link rel="stylesheet" href="/src/css/main.css">
-    <link rel="stylesheet" href="/src/css/components/form.css">
+    <link rel="stylesheet" href="/src/css/utils/reset.css" />
+    <link rel="stylesheet" href="/src/css/utils/variables.css" />
+    <link rel="stylesheet" href="/src/css/main.css" />
+    <link rel="stylesheet" href="/src/css/components/form.css" />
 </head>
 
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <header class="header">
-        <div class="container">
+    <header class="header" role="banner">
+        <div class="container header__container">
             <nav aria-label="Breadcrumb">
-                <a href="/">&larr; Back to Recipes</a>
+                <a href="/" class="breadcrumb-link">&larr; Back to Recipes</a>
             </nav>
         </div>
     </header>
 
-    <main id="main-content" class="main">
-        <!-- Content will be added in Phase 5 -->
+    <main id="main-content" class="main" role="main" tabindex="-1">
+        <div class="form-container">
+            <h1 class="form__title" id="form-title">Add New Recipe</h1>
+
+            <form id="recipe-form" class="recipe-form" novalidate>
+                <!-- Title -->
+                <div class="form__field">
+                    <label for="title" class="form__label">Recipe Title <span class="required">*</span></label>
+                    <input type="text" id="title" name="title" class="form__input" required minlength="3"
+                        maxlength="100" aria-required="true" aria-describedby="title-error" />
+                    <span id="title-error" class="form__error" role="alert"></span>
+                </div>
+
+                <!-- Description -->
+                <div class="form__field">
+                    <label for="description" class="form__label">Description <span class="required">*</span></label>
+                    <textarea id="description" name="description" class="form__textarea" required minlength="10"
+                        maxlength="500" rows="4" aria-required="true" aria-describedby="description-error"></textarea>
+                    <span id="description-error" class="form__error" role="alert"></span>
+                </div>
+
+                <!-- Ingredients -->
+                <div class="form__field">
+                    <label class="form__label">Ingredients <span class="required">*</span></label>
+                    <div id="ingredients-list" class="form__dynamic-list">
+                        <div class="form__dynamic-item">
+                            <input type="text" class="form__input" placeholder="e.g., 2 cups flour" required />
+                            <button type="button" class="btn-remove" aria-label="Remove ingredient">−</button>
+                        </div>
+                    </div>
+                    <button type="button" id="add-ingredient" class="btn btn--secondary">+ Add Ingredient</button>
+                    <span id="ingredients-error" class="form__error" role="alert"></span>
+                </div>
+
+                <!-- Steps -->
+                <div class="form__field">
+                    <label class="form__label">Cooking Steps <span class="required">*</span></label>
+                    <div id="steps-list" class="form__dynamic-list">
+                        <div class="form__dynamic-item">
+                            <textarea class="form__textarea" rows="2" placeholder="Describe this step"
+                                required></textarea>
+                            <button type="button" class="btn-remove" aria-label="Remove step">−</button>
+                        </div>
+                    </div>
+                    <button type="button" id="add-step" class="btn btn--secondary">+ Add Step</button>
+                    <span id="steps-error" class="form__error" role="alert"></span>
+                </div>
+
+                <!-- Prep Time -->
+                <div class="form__field">
+                    <label for="prepTime" class="form__label">Preparation Time (minutes) <span
+                            class="required">*</span></label>
+                    <input type="number" id="prepTime" name="prepTime" class="form__input" min="1" max="999" required
+                        aria-required="true" aria-describedby="prepTime-error" />
+                    <span id="prepTime-error" class="form__error" role="alert"></span>
+                </div>
+
+                <!-- Cook Time -->
+                <div class="form__field">
+                    <label for="cookTime" class="form__label">Cooking Time (minutes) <span
+                            class="required">*</span></label>
+                    <input type="number" id="cookTime" name="cookTime" class="form__input" min="1" max="999" required
+                        aria-required="true" aria-describedby="cookTime-error" />
+                    <span id="cookTime-error" class="form__error" role="alert"></span>
+                </div>
+
+                <!-- Difficulty -->
+                <div class="form__field">
+                    <label for="difficulty" class="form__label">Difficulty <span class="required">*</span></label>
+                    <select id="difficulty" name="difficulty" class="form__select" required aria-required="true"
+                        aria-describedby="difficulty-error">
+                        <option value="">Select difficulty</option>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                    <span id="difficulty-error" class="form__error" role="alert"></span>
+                </div>
+
+                <!-- Image URL -->
+                <div class="form__field">
+                    <label for="imageURL" class="form__label">Image URL (optional)</label>
+                    <input type="url" id="imageURL" name="imageURL" class="form__input"
+                        placeholder="https://example.com/image.jpg" aria-describedby="imageURL-error" />
+                    <span id="imageURL-error" class="form__error" role="alert"></span>
+                    <div id="image-preview" class="form__image-preview"></div>
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="form__actions">
+                    <button type="submit" class="btn btn--primary">Save Recipe</button>
+                    <button type="button" id="cancel-btn" class="btn btn--secondary">Cancel</button>
+                </div>
+            </form>
+        </div>
     </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="container footer__container">
+            <p>© 2025 Recipe Manager. Built with ❤️ using Vanilla JavaScript.</p>
+        </div>
+    </footer>
 
     <script type="module" src="/src/js/form.js"></script>
 </body>
