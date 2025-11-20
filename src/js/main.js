@@ -12,7 +12,10 @@
 
 "use strict";
 
-// Imports will be added in subsequent phases
+// Register global error handler first
+import { errorHandler } from "./modules/errorHandler.js";
+errorHandler; // instantiate to register global error handlers
+
 import { StorageManager } from "./modules/storage.js";
 import { UIManager } from "./modules/ui.js";
 import { FilterManager } from "./modules/filters.js";
@@ -51,5 +54,5 @@ difficultyFilter.addEventListener("change", (event) => {
   applyFilters();
 });
 
-// Initial render
+// Initial render on page load
 applyFilters();
