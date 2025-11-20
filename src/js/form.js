@@ -106,4 +106,88 @@ const debouncedImagePreview = debounce(() => {
 
 imageURLInput.addEventListener("input", debouncedImagePreview);
 
-// To be continued in next commits...
+const DRAFT_KEY = "recipe_form_draft";
+
+// Save draft to localStorage
+function saveDraft() {
+  const draft = collectFormData();
+  localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+}
+
+// Load draft from localStorage
+function loadDraft() {
+  const draft = localStorage.getItem(DRAFT_KEY);
+  if (draft) {
+    try {
+      const data = JSON.parse(draft);
+      document.getElementById("title").value = data.title || "";
+      document.getElementById("description").value = data.description || "";
+      document.getElementById("prepTime").value = data.prepTime || "";
+      document.getElementById("cookTime").value = data.cookTime || "";
+      document.getElementById("difficulty").value = data.difficulty || "";
+      document.getElementById("imageURL").value = data.imageURL || "";
+
+      // Populate ingredients
+      ingredientsList.innerHTML = "";
+      if (data.ingredients && data.ingredients.length > 0) {
+        data.ingredients.forEach((ing) =>
+          ingredientsList.appendChild(createIngredientField(ing))
+        );
+      } else {
+        ingredientsList.appendChild(createIngredientField());
+      }
+
+      // Populate steps
+      stepsList.innerHTML = "";
+      if (data.steps && data.steps.length > 0) {
+        data.steps.forEach((step) =>
+          stepsList.appendChild(createStepField(step))
+        );
+      } else {
+        stepsList.appendChild(createStepField());
+      }
+    } catch (error) {
+      console.error("Failed to load draft:", error);
+    }
+  }
+}
+
+// Auto-save on input
+const debouncedSaveDraft = debounce(saveDraft, 1000);
+form.addEventListener("input", debouncedSaveDraft);
+
+// Form submission
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const formData = collectFormData();
+
+  if (!validator.validateAll(formData)) {
+    validator.errors.forEach((error, field) => {
+      validator.displayFieldError(field, error);
+    });
+    alert("Please fix the errors before submitting");
+    return;
+  }
+
+  try {
+    const recipe = createRecipe(formData);
+    if (recipe) {
+      storage.save(recipe);
+      localStorage.removeItem(DRAFT_KEY);
+      alert("Recipe saved successfully!");
+      window.location.href = "/";
+    }
+  } catch (error) {
+    alert("Failed to save recipe: " + error.message);
+  }
+});
+
+cancelBtn.addEventListener("click", () => {
+  if (confirm("Discard changes?")) {
+    localStorage.removeItem(DRAFT_KEY);
+    window.location.href = "/";
+  }
+});
+
+// Initialize
+loadDraft();
