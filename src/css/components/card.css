@@ -10,6 +10,8 @@
  * BEM naming convention
  */
 
+/* Recipe Card Styles */
+
 .recipe-card {
   background: var(--color-white);
   border-radius: var(--radius-md);
@@ -94,5 +96,89 @@
 @media (min-width: 640px) {
   .recipe-grid {
     padding-inline: var(--space-8);
+  }
+}
+
+/* Detail Page Styles */
+
+.recipe-detail {
+  max-width: 800px;
+  margin: var(--space-8) auto;
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-6);
+  font-family: var(--font-sans);
+}
+
+.recipe-detail__title {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-4);
+}
+
+.recipe-detail__image {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-4);
+}
+
+.recipe-detail__section {
+  margin-bottom: var(--space-6);
+}
+
+.recipe-detail__section h2 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-3);
+}
+
+.recipe-detail__list {
+  list-style: disc inside;
+  margin-left: var(--space-4);
+  color: var(--color-gray-700);
+}
+
+.recipe-detail__buttons {
+  display: flex;
+  gap: var(--space-4);
+}
+
+/* Danger button (e.g., Delete) */
+.btn--danger {
+  background-color: var(--color-error);
+  color: var(--color-white);
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.btn--danger:hover,
+.btn--danger:focus-visible {
+  background-color: darkred;
+  outline-offset: 2px;
+  outline: 2px solid darkred;
+}
+
+/* Print styles */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+  .header,
+  .footer,
+  .btn {
+    display: none;
+  }
+  .recipe-detail {
+    box-shadow: none;
+    margin: 0;
+    border-radius: 0;
+    padding: 0;
   }
 }
