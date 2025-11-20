@@ -5,4 +5,151 @@
  * Implementation in Phase 5
  */
 
-/* Placeholder - will be implemented in Phase 5 */
+/**
+ * Recipe Form Component Styles
+ * BEM naming convention
+ */
+
+.form-container {
+  max-width: 700px;
+  margin: var(--space-8) auto;
+  padding: var(--space-6);
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+.form__title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-6);
+  color: var(--color-gray-900);
+}
+
+.recipe-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.form__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.form__label {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-800);
+}
+
+.required {
+  color: var(--color-error);
+  font-weight: var(--font-weight-bold);
+}
+
+.form__input,
+.form__textarea,
+.form__select {
+  padding: var(--space-3);
+  font-size: var(--font-size-base);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-sm);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.form__input:focus,
+.form__textarea:focus,
+.form__select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.form__input.invalid,
+.form__textarea.invalid,
+.form__select.invalid {
+  border-color: var(--color-error);
+}
+
+.form__error {
+  font-size: var(--font-size-sm);
+  color: var(--color-error);
+  min-height: 1.2em;
+  display: block;
+}
+
+.form__dynamic-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.form__dynamic-item {
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-start;
+}
+
+.form__dynamic-item .form__input,
+.form__dynamic-item .form__textarea {
+  flex: 1;
+}
+
+.btn-remove {
+  background: var(--color-error);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--radius-sm);
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  transition: background var(--transition-fast);
+}
+
+.btn-remove:hover,
+.btn-remove:focus {
+  background: darkred;
+}
+
+.btn--secondary {
+  background: var(--color-gray-200);
+  color: var(--color-gray-800);
+  border: 1px solid var(--color-gray-300);
+}
+
+.btn--secondary:hover,
+.btn--secondary:focus {
+  background: var(--color-gray-300);
+}
+
+.form__image-preview {
+  margin-top: var(--space-3);
+}
+
+.form__image-preview img {
+  max-width: 300px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.form__actions {
+  display: flex;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.form__actions .btn {
+  flex: 1;
+}
+
+@media (min-width: 640px) {
+  .form__actions .btn {
+    flex: initial;
+  }
+}
