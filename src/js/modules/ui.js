@@ -1,15 +1,3 @@
-/**
- * UI Manager - DOM manipulation and rendering
- *
- * @module ui
- * @description Manages all UI updates with performance optimization
- *
- * Performance targets:
- * - Render time < 16ms (60fps)
- * - Use DocumentFragment for batch updates
- * - Minimize reflows and repaints
- */
-
 "use strict";
 
 /**
@@ -58,6 +46,12 @@ export class UIManager {
       recipe.imageURL || "/src/assets/images/placeholder.jpg"
     );
     img.src = "/src/assets/images/placeholder.jpg";
+
+    // Lazy load fallback handling
+    img.onerror = () => {
+      img.src = "/src/assets/images/placeholder.jpg"; // fallback image
+    };
+
     this.intersectionObserver.observe(img);
 
     const content = document.createElement("div");
@@ -109,7 +103,7 @@ export class UIManager {
     this.recipeListEl.appendChild(fragment);
   }
 
-  // New Method: Show count of filtered results
+  // Show count of filtered results
   renderFilterCount(count, total) {
     let countEl = document.getElementById("filter-result-count");
     if (!countEl) {
@@ -121,7 +115,7 @@ export class UIManager {
     countEl.textContent = `Showing ${count} of ${total} recipes`;
   }
 
-  // New Method: Show empty state message
+  // Show empty state message
   renderEmptyState() {
     this.recipeListEl.innerHTML =
       '<p class="filters__empty-state">No recipes match your filter criteria.</p>';

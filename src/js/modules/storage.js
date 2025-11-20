@@ -11,34 +11,50 @@ export class StorageManager {
     this.isCacheInitialized = false;
   }
 
+  // (Inside StorageManager class)
+
   _initCache() {
     if (this.isCacheInitialized) return;
-
-    const startMark = "storage_get_start";
-    performance.mark(startMark);
 
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (!stored) {
         this.cache = new Map();
       } else {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed)) {
-          this.cache = new Map(parsed.map((recipe) => [recipe.id, recipe]));
-        } else {
+        try {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed)) {
+            this.cache = new Map(parsed.map((recipe) => [recipe.id, recipe]));
+          } else {
+            throw new Error("Invalid data format");
+          }
+        } catch (parseError) {
+          console.warn("Corrupted localStorage data detected, clearing...");
+          localStorage.removeItem(STORAGE_KEY);
           this.cache = new Map();
         }
       }
     } catch (error) {
-      console.error("localStorage getItem parsing error:", error);
+      console.error("localStorage access error:", error);
       this.cache = new Map();
-      localStorage.removeItem(STORAGE_KEY);
     }
-
     this.isCacheInitialized = true;
+  }
 
-    performance.mark("storage_get_end");
-    performance.measure("storage_get_duration", startMark, "storage_get_end");
+  _persistCache() {
+    try {
+      const data = JSON.stringify(Array.from(this.cache.values()));
+      localStorage.setItem(STORAGE_KEY, data);
+    } catch (error) {
+      if (error.name === "QuotaExceededError") {
+        alert(
+          "Storage limit exceeded. Please delete some recipes before adding new ones."
+        );
+      } else {
+        console.error("Error saving to localStorage:", error);
+        throw error;
+      }
+    }
   }
 
   getAll() {
@@ -54,8 +70,14 @@ export class StorageManager {
       const data = JSON.stringify(Array.from(this.cache.values()));
       localStorage.setItem(STORAGE_KEY, data);
     } catch (error) {
-      console.error("localStorage setItem error:", error);
-      throw new Error("Failed to write recipes data");
+      if (error.name === "QuotaExceededError") {
+        alert(
+          "Storage limit exceeded. Please delete some recipes before adding new ones."
+        );
+      } else {
+        console.error("localStorage setItem error:", error);
+        throw error;
+      }
     }
 
     performance.mark("storage_set_end");

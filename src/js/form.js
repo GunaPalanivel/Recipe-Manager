@@ -100,6 +100,7 @@ const debouncedImagePreview = debounce(() => {
     imagePreview.innerHTML =
       '<p style="color: var(--color-error);">Failed to load image</p>';
   };
+
   imagePreview.appendChild(img);
 }, 500);
 
