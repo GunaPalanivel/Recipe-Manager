@@ -25,6 +25,7 @@ export const sampleRecipes = [
     prepTime: 10,
     cookTime: 30,
     difficulty: DIFFICULTY_LEVELS.EASY,
+    category: "veg", // Pure vegetarian
     imageURL: "/src/assets/images/easy/tomato-soup.jpg",
   },
 
@@ -43,6 +44,7 @@ export const sampleRecipes = [
     prepTime: 5,
     cookTime: 5,
     difficulty: DIFFICULTY_LEVELS.EASY,
+    category: "vegetarian", // Contains eggs
     imageURL: "/src/assets/images/easy/scrambled-eggs.jpg",
   },
   {
@@ -59,6 +61,7 @@ export const sampleRecipes = [
     prepTime: 5,
     cookTime: 5,
     difficulty: DIFFICULTY_LEVELS.EASY,
+    category: "vegetarian", // Contains dairy
     imageURL: "/src/assets/images/easy/grilled-cheese.jpg",
   },
   {
@@ -82,6 +85,7 @@ export const sampleRecipes = [
     prepTime: 10,
     cookTime: 0,
     difficulty: DIFFICULTY_LEVELS.EASY,
+    category: "fruit", // Fruit-based dish
     imageURL: "/src/assets/images/easy/fruit-salad.jpg",
   },
   {
@@ -103,6 +107,7 @@ export const sampleRecipes = [
     prepTime: 5,
     cookTime: 2,
     difficulty: DIFFICULTY_LEVELS.EASY,
+    category: "vegetarian", // Vegan-friendly but categorized as vegetarian
     imageURL: "/src/assets/images/easy/peanut-butter-banana-toast.jpg",
   },
 
@@ -131,6 +136,7 @@ export const sampleRecipes = [
     prepTime: 20,
     cookTime: 25,
     difficulty: DIFFICULTY_LEVELS.MEDIUM,
+    category: "nonveg", // Contains chicken
     imageURL: "/src/assets/images/medium/chicken-alfredo.jpg",
   },
   {
@@ -156,6 +162,7 @@ export const sampleRecipes = [
     prepTime: 15,
     cookTime: 20,
     difficulty: DIFFICULTY_LEVELS.MEDIUM,
+    category: "nonveg", // Contains beef
     imageURL: "/src/assets/images/medium/beef-stir-fry.jpg",
   },
   {
@@ -181,6 +188,7 @@ export const sampleRecipes = [
     prepTime: 30,
     cookTime: 1,
     difficulty: DIFFICULTY_LEVELS.MEDIUM,
+    category: "vegetarian", // Contains cheese/dairy
     imageURL: "/src/assets/images/medium/vegetable-lasagna.jpg",
   },
   {
@@ -205,6 +213,7 @@ export const sampleRecipes = [
     prepTime: 15,
     cookTime: 15,
     difficulty: DIFFICULTY_LEVELS.MEDIUM,
+    category: "nonveg", // Contains shrimp/seafood
     imageURL: "/src/assets/images/medium/shrimp-scampi.jpg",
   },
   {
@@ -229,6 +238,7 @@ export const sampleRecipes = [
     prepTime: 20,
     cookTime: 40,
     difficulty: DIFFICULTY_LEVELS.MEDIUM,
+    category: "vegetarian", // Contains cheese/dairy
     imageURL: "/src/assets/images/medium/stuffed-bell-peppers.jpg",
   },
 
@@ -258,6 +268,7 @@ export const sampleRecipes = [
     prepTime: 60,
     cookTime: 45,
     difficulty: DIFFICULTY_LEVELS.HARD,
+    category: "nonveg", // Contains beef
     imageURL: "/src/assets/images/hard/beef-wellington.jpg",
   },
   {
@@ -283,6 +294,7 @@ export const sampleRecipes = [
     prepTime: 20,
     cookTime: 150,
     difficulty: DIFFICULTY_LEVELS.HARD,
+    category: "nonveg", // Contains chicken
     imageURL: "/src/assets/images/hard/coq-au-vin.jpg",
   },
   {
@@ -308,11 +320,12 @@ export const sampleRecipes = [
     prepTime: 30,
     cookTime: 40,
     difficulty: DIFFICULTY_LEVELS.HARD,
+    category: "vegetarian", // Contains eggs and cheese
     imageURL: "/src/assets/images/hard/souffle.jpg",
   },
   {
     id: "hard-4",
-    title: "Duck à l’Orange",
+    title: "Duck à l'Orange",
     description: "Roast duck with tangy orange sauce.",
     ingredients: [
       "1 whole duck",
@@ -331,6 +344,7 @@ export const sampleRecipes = [
     prepTime: 40,
     cookTime: 90,
     difficulty: DIFFICULTY_LEVELS.HARD,
+    category: "nonveg", // Contains duck
     imageURL: "/src/assets/images/hard/duck-orange.jpg",
   },
   {
@@ -353,6 +367,7 @@ export const sampleRecipes = [
     prepTime: 60,
     cookTime: 5,
     difficulty: DIFFICULTY_LEVELS.HARD,
+    category: "dessert", // Sweet dessert
     imageURL: "/src/assets/images/hard/baked-alaska.jpg",
   },
 ];

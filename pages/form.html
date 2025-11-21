@@ -113,6 +113,23 @@
                     </select>
                     <span id="difficulty-error" class="form__error" role="alert" aria-live="polite"></span>
                 </div>
+                
+                <!-- Category -->
+                <div class="form__field">
+                    <label for="category" class="form__label">
+                        Category <span class="required" aria-label="required">*</span>
+                    </label>
+                    <select id="category" name="category" class="form__select" required aria-required="true"
+                        aria-describedby="category-error">
+                        <option value="">Select category</option>
+                        <option value="veg">Veg</option>
+                        <option value="vegetarian">Vegetarian</option>
+                        <option value="nonveg">Non-Veg</option>
+                        <option value="fruit">Fruit</option>
+                        <option value="dessert">Dessert</option>
+                    </select>
+                    <span id="category-error" class="form__error" role="alert" aria-live="polite"></span>
+                </div>
 
                 <!-- Image URL -->
                 <div class="form__field">

@@ -1,9 +1,8 @@
-/**
- * Recipe Model - Class and Factory
- * @module recipe
- */
-
-import { DIFFICULTY_LEVELS, VALIDATION_RULES } from "../../utils/constants.js";
+import {
+  DIFFICULTY_LEVELS,
+  VALIDATION_RULES,
+  RECIPE_CATEGORIES,
+} from "../../utils/constants.js";
 
 function generateUUID() {
   if (crypto?.randomUUID) return crypto.randomUUID();
@@ -24,6 +23,7 @@ export class Recipe {
     prepTime,
     cookTime,
     difficulty,
+    category, // <-- New category field
     imageURL = "",
   } = {}) {
     this.id = id;
@@ -34,7 +34,9 @@ export class Recipe {
     this.prepTime = prepTime;
     this.cookTime = cookTime;
     this.difficulty = difficulty;
+    this.category = category; // assign category as-is (string)
     this.imageURL = imageURL.trim();
+
     this.validate();
   }
 
@@ -50,7 +52,6 @@ export class Recipe {
         `Title must be between ${rules.title.minLength}-${rules.title.maxLength} characters`
       );
     }
-
     if (
       typeof this.description !== "string" ||
       this.description.length < rules.description.minLength ||
@@ -60,7 +61,6 @@ export class Recipe {
         `Description must be between ${rules.description.minLength}-${rules.description.maxLength} characters`
       );
     }
-
     if (
       !Array.isArray(this.ingredients) ||
       this.ingredients.length < rules.ingredientsMin ||
@@ -70,7 +70,6 @@ export class Recipe {
         `Ingredients must contain between ${rules.ingredientsMin} and ${rules.ingredientsMax} items`
       );
     }
-
     if (
       !Array.isArray(this.steps) ||
       this.steps.length < rules.stepsMin ||
@@ -80,7 +79,6 @@ export class Recipe {
         `Steps must contain between ${rules.stepsMin} and ${rules.stepsMax} items`
       );
     }
-
     if (
       typeof this.prepTime !== "number" ||
       this.prepTime < rules.prepTimeMin ||
@@ -90,7 +88,6 @@ export class Recipe {
         `Preparation time must be between ${rules.prepTimeMin} and ${rules.prepTimeMax} minutes`
       );
     }
-
     if (
       typeof this.cookTime !== "number" ||
       this.cookTime < rules.cookTimeMin ||
@@ -100,15 +97,24 @@ export class Recipe {
         `Cooking time must be between ${rules.cookTimeMin} and ${rules.cookTimeMax} minutes`
       );
     }
-
     if (!rules.difficultyValues.includes(this.difficulty)) {
       throw new Error(
         `Difficulty must be one of: ${rules.difficultyValues.join(", ")}`
       );
     }
-
+    // New category validation:
+    if (!RECIPE_CATEGORIES.includes(this.category)) {
+      throw new Error(
+        `Category must be one of: ${RECIPE_CATEGORIES.join(", ")}`
+      );
+    }
     if (this.imageURL && !this._isValidURL(this.imageURL)) {
       throw new Error("Image URL is not valid");
+    }
+    if (!rules.categoryValues.includes(this.category)) {
+      throw new Error(
+        `Category must be one of: ${rules.categoryValues.join(", ")}`
+      );
     }
   }
 
@@ -122,7 +128,7 @@ export function createRecipe(data) {
   try {
     return new Recipe(data);
   } catch (error) {
-    alert("Invalid recipe data: " + error.message); // Shows user the actual cause
+    alert("Invalid recipe data: " + error.message);
     console.warn("Invalid recipe data:", error.message);
     return null;
   }

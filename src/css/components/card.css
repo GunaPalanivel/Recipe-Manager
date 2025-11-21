@@ -1,15 +1,3 @@
-/**
- * Recipe Card Component
- * 
- * BEM naming convention
- * Implementation in Phase 2
- */
-
-/**
- * Recipe Card Component Styles
- * BEM naming convention
- */
-
 /* Recipe Card Styles */
 
 .recipe-card {
@@ -147,6 +135,7 @@
 }
 
 /* Danger button (e.g., Delete) */
+
 .btn--danger {
   background-color: var(--color-error);
   color: var(--color-white);
@@ -165,6 +154,7 @@
 }
 
 /* Print styles */
+
 @media print {
   body {
     background: white;
@@ -181,4 +171,54 @@
     border-radius: 0;
     padding: 0;
   }
+}
+
+/* Category Badge Styles */
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px; /* pill-shaped */
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-white);
+  user-select: none;
+  pointer-events: none;
+  margin-left: var(--space-2);
+  vertical-align: middle;
+}
+
+/* Generic fallback badge color */
+.badge--category {
+  background-color: var(--color-category-default, var(--color-gray-500));
+}
+
+/* Category colors */
+
+.badge--veg {
+  background-color: #06c167; /* Uber Eats green */
+}
+
+.badge--vegetarian {
+  background-color: #a3be8c; /* pastel light green */
+}
+
+.badge--nonveg {
+  background-color: #e23744; /* Zomato red */
+}
+
+.badge--fruit {
+  background-color: #fc8019; /* Swiggy orange */
+}
+
+.badge--dessert {
+  background-color: #b48ead; /* pastel purple */
+}
+
+/* Hover effect for badges */
+
+.recipe-card:hover .badge,
+.recipe-detail__title .badge {
+  filter: brightness(110%);
+  transition: filter 0.3s ease;
 }

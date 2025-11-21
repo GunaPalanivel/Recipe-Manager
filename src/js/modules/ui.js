@@ -52,7 +52,7 @@ export class UIManager {
 
     // Lazy load fallback handling
     img.onerror = () => {
-      img.src = "/src/assets/images/placeholder.jpg"; // fallback image
+      img.src = "/src/assets/images/placeholder.jpg";
     };
 
     this.intersectionObserver.observe(img);
@@ -60,9 +60,27 @@ export class UIManager {
     const content = document.createElement("div");
     content.className = "recipe-card__content";
 
+    /*** START CATEGORY BADGE ADDITION ***/
+    // Create category badge element
+    let categoryBadge = null;
+    if (recipe.category) {
+      const categoryLabel =
+        recipe.category.charAt(0).toUpperCase() + recipe.category.slice(1);
+      categoryBadge = document.createElement("span");
+      categoryBadge.className = `badge badge--category badge--${recipe.category}`;
+      categoryBadge.setAttribute("aria-label", `Category: ${categoryLabel}`);
+      categoryBadge.textContent = categoryLabel;
+    }
+    /*** END CATEGORY BADGE ADDITION ***/
+
+    // Title element (with badge)
     const title = document.createElement("h2");
     title.className = "recipe-card__title";
     title.textContent = recipe.title;
+
+    if (categoryBadge) {
+      title.appendChild(categoryBadge); // Add badge inline with title
+    }
 
     const description = document.createElement("p");
     description.className = "recipe-card__description";

@@ -3,6 +3,7 @@ import { createRecipe } from "./modules/recipe.js";
 import { ValidationManager } from "./modules/validation.js";
 import { debounce } from "../utils/helpers.js";
 import { CRUDManager } from "./crud.js";
+import { VALIDATION_RULES } from "../utils/constants.js";
 
 const storage = new StorageManager();
 const validator = new ValidationManager("recipe-form");
@@ -76,6 +77,7 @@ function collectFormData() {
     prepTime: parseInt(document.getElementById("prepTime").value, 10),
     cookTime: parseInt(document.getElementById("cookTime").value, 10),
     difficulty: document.getElementById("difficulty").value,
+    category: document.getElementById("category").value, // <--- Added for category
     imageURL: document.getElementById("imageURL").value.trim(),
   };
 }
@@ -124,6 +126,7 @@ function loadDraft() {
       document.getElementById("cookTime").value = data.cookTime || "";
       document.getElementById("difficulty").value = data.difficulty || "";
       document.getElementById("imageURL").value = data.imageURL || "";
+      document.getElementById("category").value = data.category || "";
 
       ingredientsList.innerHTML = "";
       if (data.ingredients && data.ingredients.length > 0) {
@@ -161,6 +164,13 @@ form.addEventListener("submit", async (event) => {
     });
     alert("Please fix the errors before submitting.");
     return;
+  }
+
+  if (!VALIDATION_RULES.categoryValues.includes(formData.category)) {
+    validator.displayFieldError("category", "Please select a valid category");
+    return false;
+  } else {
+    validator.clearFieldError("category");
   }
 
   try {
@@ -205,6 +215,7 @@ function prepopulateForm(id) {
   document.getElementById("cookTime").value = existingRecipe.cookTime;
   document.getElementById("difficulty").value = existingRecipe.difficulty;
   document.getElementById("imageURL").value = existingRecipe.imageURL || "";
+  document.getElementById("category").value = existingRecipe.category || "";
 
   ingredientsList.innerHTML = "";
   existingRecipe.ingredients.forEach((ing) =>
