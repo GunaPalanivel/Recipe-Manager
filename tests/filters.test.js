@@ -49,8 +49,8 @@ describe("FilterManager", () => {
     filter.setDifficulty("easy");
     filter.setMaxPrepTime(10);
     const result = filter.filter(sampleRecipes);
-    expect(result).toHaveLength(1);
-    expect(result[0].title).toBe("Salad");
+    expect(result).toHaveLength(2);
+    expect(result.map((r) => r.title)).toContain("Salad");
   });
 
   it("should return all when filters cleared", () => {

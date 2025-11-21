@@ -17,7 +17,7 @@
  * Uses Strategy pattern for extendability
  */
 
-import { DIFFICULTY_LEVELS } from "../utils/constants.js";
+import { DIFFICULTY_LEVELS } from "../../utils/constants.js";
 
 export class FilterManager {
   constructor() {

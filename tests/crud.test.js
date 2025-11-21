@@ -12,14 +12,15 @@ describe("CRUDManager integration", () => {
   it("creates and retrieves a recipe", () => {
     const data = {
       title: "Test Recipe",
-      description: "Desc",
-      ingredients: ["a", "b"],
-      steps: ["step1"],
+      description: "This is a valid description with more than ten characters.",
+      ingredients: ["1 cup flour", "2 eggs"],
+      steps: ["Mix ingredients", "Bake at 350F for 20 minutes"],
       prepTime: 10,
       cookTime: 20,
       difficulty: "easy",
-      imageURL: "",
+      imageURL: "", // optional
     };
+
     crud.createRecipe(data);
     const recipes = crud.storage.getAll();
     expect(recipes.length).toBe(1);
@@ -28,8 +29,8 @@ describe("CRUDManager integration", () => {
 
   it("updates a recipe", () => {
     const data = {
-      title: "Original",
-      description: "Desc",
+      title: "Original Recipe",
+      description: "A sufficiently long valid description for the update test.",
       ingredients: ["a"],
       steps: ["step1"],
       prepTime: 10,
@@ -39,15 +40,16 @@ describe("CRUDManager integration", () => {
     };
     crud.createRecipe(data);
     const saved = crud.storage.getAll()[0];
-    crud.updateRecipe(saved.id, { ...data, title: "Updated" });
+    crud.updateRecipe(saved.id, { ...data, title: "Updated Recipe" });
     const updated = crud.storage.getAll()[0];
-    expect(updated.title).toBe("Updated");
+    expect(updated.title).toBe("Updated Recipe");
   });
 
   it("deletes a recipe", () => {
     const data = {
       title: "To Delete",
-      description: "Desc",
+      description:
+        "Description long enough to pass validation and allow deletion.",
       ingredients: ["a"],
       steps: ["step1"],
       prepTime: 10,

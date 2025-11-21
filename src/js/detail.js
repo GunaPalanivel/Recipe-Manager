@@ -1,24 +1,9 @@
 import { StorageManager } from "./modules/storage.js";
-import { createRecipe } from "./modules/recipe.js";
 import { CRUDManager } from "./crud.js";
 
 const storage = new StorageManager();
-const detailContainer = document.querySelector(".recipe-detail");
-
 const crud = new CRUDManager();
-
-async function handleDelete() {
-  if (confirm("Are you sure you want to delete this recipe?")) {
-    const id = getRecipeIdFromURL();
-    try {
-      await crud.deleteRecipe(id);
-      alert("Recipe deleted");
-      window.location.href = "/";
-    } catch (error) {
-      alert("Delete failed: " + error.message);
-    }
-  }
-}
+const detailContainer = document.querySelector(".recipe-detail");
 
 function getRecipeIdFromURL() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -34,32 +19,27 @@ function renderRecipe(recipe) {
   detailContainer.innerHTML = `
     <h1 class="recipe-detail__title">${recipe.title}</h1>
     <img src="${recipe.imageURL || "/src/assets/images/placeholder.jpg"}" alt="${recipe.title}" class="recipe-detail__image" />
-    
     <section class="recipe-detail__section">
       <h2>Description</h2>
       <p>${recipe.description}</p>
     </section>
-    
     <section class="recipe-detail__section">
       <h2>Ingredients</h2>
       <ul class="recipe-detail__list">
         ${recipe.ingredients.map((ing) => `<li>${ing}</li>`).join("")}
       </ul>
     </section>
-    
     <section class="recipe-detail__section">
       <h2>Steps</h2>
       <ol class="recipe-detail__list">
         ${recipe.steps.map((step) => `<li>${step}</li>`).join("")}
       </ol>
     </section>
-    
     <section class="recipe-detail__section">
       <strong>Preparation Time:</strong> ${recipe.prepTime} minutes<br />
       <strong>Cooking Time:</strong> ${recipe.cookTime} minutes<br />
       <strong>Difficulty:</strong> ${recipe.difficulty}
     </section>
-
     <div class="recipe-detail__buttons">
       <button id="edit-btn" class="btn btn--primary" aria-label="Edit recipe ${recipe.title}">Edit</button>
       <button id="delete-btn" class="btn btn--danger" aria-label="Delete recipe ${recipe.title}">Delete</button>
@@ -73,7 +53,8 @@ function renderRecipe(recipe) {
   document.getElementById("delete-btn").addEventListener("click", handleDelete);
 }
 
-function handleDelete() {
+// Only one handleDelete definition!
+async function handleDelete() {
   if (
     confirm(
       "Are you sure you want to delete this recipe? This action cannot be undone."
@@ -81,7 +62,7 @@ function handleDelete() {
   ) {
     const id = getRecipeIdFromURL();
     try {
-      storage.remove(id);
+      await crud.deleteRecipe(id);
       alert("Recipe deleted successfully.");
       window.location.href = "/";
     } catch (error) {

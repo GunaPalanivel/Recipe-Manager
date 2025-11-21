@@ -3,7 +3,7 @@
  * @module storage
  */
 
-import { STORAGE_KEY } from "../utils/constants.js";
+import { STORAGE_KEY } from "../../utils/constants.js";
 
 export class StorageManager {
   constructor() {
