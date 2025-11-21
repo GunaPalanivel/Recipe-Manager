@@ -312,7 +312,7 @@ export const sampleRecipes = [
   },
   {
     id: "hard-4",
-    title: "Duck à l’Orange",
+    title: "Duck à l'Orange",
     description: "Roast duck with tangy orange sauce.",
     ingredients: [
       "1 whole duck",

@@ -1,12 +1,5 @@
 /**
  * Filter Component Styles
- * 
- * BEM naming convention
- * Implementation in Phase 3
- */
-
-/**
- * Filter Component Styles
  * BEM Naming Convention
  * Implementation for Phase 3: Search & Filter System
  */
@@ -70,4 +63,69 @@
   padding: var(--space-6);
   font-size: var(--font-size-base);
   color: var(--color-gray-500);
+}
+
+/* Category checkbox group container */
+.filters__group {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Category fieldset legend */
+.filters__legend {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  margin-right: var(--space-2);
+}
+
+/* Individual toggle checkbox label */
+.filters__toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  background: var(--color-gray-100);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+
+.filters__toggle input[type="checkbox"] {
+  accent-color: var(--color-primary);
+  margin-right: var(--space-1);
+}
+
+/* Hover effects for category toggles */
+.filters__toggle:hover {
+  background: var(--color-primary-light);
+  color: var(--color-white);
+}
+
+/* Container for Prep and Cook time sliders */
+.filters__times {
+  display: flex;
+  gap: var(--space-6);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Time slider input */
+.filters__slider {
+  width: 120px;
+}
+
+/* Numeric value display for sliders */
+.filters__slider-value {
+  min-width: 2ch;
+  font-weight: var(--font-weight-semibold);
+  margin-right: var(--space-2);
+}
+
+/* Label for sliders */
+.filters__timelabel {
+  margin-right: var(--space-1);
+  font-size: var(--font-size-sm);
 }

@@ -37,12 +37,61 @@
         aria-controls="recipe-list" aria-describedby="search-desc" />
       <div id="search-desc" class="sr-only">Search recipes by title</div>
 
+      <!-- Difficulty dropdown -->
       <select id="difficulty-filter" class="filters__select" aria-label="Filter recipes by difficulty">
         <option value="all" selected>All Difficulties</option>
         <option value="easy">Easy</option>
         <option value="medium">Medium</option>
         <option value="hard">Hard</option>
       </select>
+
+      <!-- CATEGORY CHECKBOXES (industry-level pattern) -->
+      <fieldset class="filters__group" aria-label="Recipe category filters">
+        <legend class="filters__legend">Categories</legend>
+        <label class="filters__toggle">
+          <input type="checkbox" value="veg" class="filters__category" checked /> Veg
+        </label>
+        <label class="filters__toggle">
+          <input type="checkbox" value="vegetarian" class="filters__category" checked /> Vegetarian
+        </label>
+        <label class="filters__toggle">
+          <input type="checkbox" value="nonveg" class="filters__category" checked /> Non-Veg
+        </label>
+        <label class="filters__toggle">
+          <input type="checkbox" value="fruit" class="filters__category" checked /> Fruit
+        </label>
+        <label class="filters__toggle">
+          <input type="checkbox" value="dessert" class="filters__category" checked /> Dessert
+        </label>
+      </fieldset>
+
+      <!-- TIME SLIDERS -->
+      <div class="filters__times">
+
+        <!-- Prep Time sliders with min and max -->
+        <label class="filters__timelabel" for="prep-time-min">Prep Time Min</label>
+        <input type="range" id="prep-time-min" min="0" max="120" value="0" class="filters__slider" aria-valuemin="0"
+          aria-valuemax="120" aria-valuenow="0" aria-label="Minimum preparation time" />
+        <span id="prep-time-min-value" class="filters__slider-value" aria-live="polite">0</span>
+
+        <label class="filters__timelabel" for="prep-time-max">Prep Time Max</label>
+        <input type="range" id="prep-time-max" min="0" max="120" value="120" class="filters__slider" aria-valuemin="0"
+          aria-valuemax="120" aria-valuenow="120" aria-label="Maximum preparation time" />
+        <span id="prep-time-max-value" class="filters__slider-value" aria-live="polite">120</span>
+
+
+        <!-- Cook Time sliders with min and max -->
+        <label class="filters__timelabel" for="cook-time-min">Cook Time Min</label>
+        <input type="range" id="cook-time-min" min="0" max="180" value="0" class="filters__slider" aria-valuemin="0"
+          aria-valuemax="180" aria-valuenow="0" aria-label="Minimum cooking time" />
+        <span id="cook-time-min-value" class="filters__slider-value" aria-live="polite">0</span>
+
+        <label class="filters__timelabel" for="cook-time-max">Cook Time Max</label>
+        <input type="range" id="cook-time-max" min="0" max="180" value="180" class="filters__slider" aria-valuemin="0"
+          aria-valuemax="180" aria-valuenow="180" aria-label="Maximum cooking time" />
+        <span id="cook-time-max-value" class="filters__slider-value" aria-live="polite">180</span>
+
+      </div>
     </section>
 
     <!-- Filter result count (dynamically populated) -->
@@ -52,6 +101,7 @@
       <!-- Recipe cards will be dynamically rendered here -->
     </section>
   </main>
+
 
   <footer class="footer" role="contentinfo">
     <div class="container footer__container">

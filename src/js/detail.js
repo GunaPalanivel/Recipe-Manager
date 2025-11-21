@@ -16,6 +16,17 @@ function renderNotFound() {
 }
 
 function renderRecipe(recipe) {
+  // Capitalize first letter of category for display
+  const categoryLabel =
+    recipe.category?.charAt(0).toUpperCase() + recipe.category?.slice(1) || "";
+
+  // Category badge HTML
+  const categoryBadge = `
+    <span class="badge badge--category badge--${recipe.category}" aria-label="Category: ${categoryLabel}">
+      ${categoryLabel}
+    </span>
+  `;
+
   detailContainer.innerHTML = `
     <h1 class="recipe-detail__title">${recipe.title}</h1>
     <img src="${recipe.imageURL || "/assets/images/placeholder.jpg"}" alt="${recipe.title}" class="recipe-detail__image" />

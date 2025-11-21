@@ -93,6 +93,7 @@ export class UIManager {
     difficulty.textContent = recipe.difficulty.toUpperCase();
 
     meta.append(prepCook, difficulty);
+
     content.append(title, description, meta);
     card.append(img, content);
 
