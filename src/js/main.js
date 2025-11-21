@@ -1,257 +1,138 @@
 "use strict";
 
-// Register global error handler first
-import { errorHandler } from "./modules/errorHandler.js";
-errorHandler; // instantiate to register global handlers
-
 import { StorageManager } from "./modules/storage.js";
 import { UIManager } from "./modules/ui.js";
 import { FilterManager } from "./modules/filters.js";
-import { debounce } from "../utils/helpers.js";
 import { sampleRecipes } from "../data/sample-recipes.js";
+import { STORAGE_KEY } from "../utils/constants.js";
 
-/**
- * Custom UIManager extension to override card rendering to include category badges
- */
-class CustomUIManager extends UIManager {
-  renderRecipeList(recipes) {
-    const container = this.recipeListEl;
-    if (!container) {
-      console.error("Recipe list container element not found");
-      return;
-    }
-    container.innerHTML = ""; // clear existing
-
-    recipes.forEach((recipe) => {
-      const categoryLabel = recipe.category
-        ? recipe.category.charAt(0).toUpperCase() + recipe.category.slice(1)
-        : "";
-
-      const card = document.createElement("article");
-      card.className = "recipe-card";
-      card.tabIndex = 0;
-      card.setAttribute("role", "region");
-      card.setAttribute("aria-label", `Recipe: ${recipe.title}`);
-
-      const imgWrap = document.createElement("div");
-      imgWrap.className = "recipe-card__image-wrapper";
-
-      const img = document.createElement("img");
-      img.className = "recipe-card__image";
-      img.alt = recipe.title;
-      img.setAttribute(
-        "data-src",
-        recipe.imageURL || "/src/assets/images/placeholder.jpg"
-      );
-      img.src = "/src/assets/images/placeholder.jpg";
-      img.onerror = () => {
-        img.src = "/src/assets/images/placeholder.jpg";
-      };
-      imgWrap.appendChild(img);
-
-      const content = document.createElement("div");
-      content.className = "recipe-card__content";
-
-      const title = document.createElement("h3");
-      title.className = "recipe-card__title";
-      title.textContent = recipe.title;
-
-      if (categoryLabel) {
-        const categoryBadge = document.createElement("span");
-        categoryBadge.className = `badge badge--category badge--${recipe.category}`;
-        categoryBadge.setAttribute("aria-label", `Category: ${categoryLabel}`);
-        categoryBadge.textContent = categoryLabel;
-        title.appendChild(categoryBadge);
-      }
-
-      const description = document.createElement("p");
-      description.className = "recipe-card__description";
-      description.textContent = recipe.description;
-
-      const meta = document.createElement("div");
-      meta.className = "recipe-card__meta";
-
-      const prepCook = document.createElement("span");
-      prepCook.textContent = `Prep: ${recipe.prepTime} mins | Cook: ${recipe.cookTime} mins`;
-
-      const difficulty = document.createElement("span");
-      difficulty.className = `recipe-card__difficulty recipe-card__difficulty--${recipe.difficulty}`;
-      difficulty.textContent = recipe.difficulty.toUpperCase();
-
-      meta.append(prepCook, difficulty);
-
-      content.append(title, description, meta);
-      card.append(imgWrap, content);
-
-      card.addEventListener("click", () => {
-        window.location.href = `/pages/detail.html?id=${encodeURIComponent(recipe.id)}`;
-      });
-      card.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          card.click();
-        }
-      });
-
-      container.appendChild(card);
-
-      if (this.intersectionObserver) {
-        this.intersectionObserver.observe(img);
-      }
-    });
-  }
-}
-
-function main() {
+document.addEventListener("DOMContentLoaded", () => {
+  // 1. Initialize storage and seed sample data if none exists
   const storage = new StorageManager();
   storage.seed(sampleRecipes);
 
-  const uiManager = new CustomUIManager({ recipeListId: "recipe-list" });
+  // 2. Create UI and filter managers
+  const uiManager = new UIManager({ recipeListId: "recipe-list" });
   const filterManager = new FilterManager();
 
-  // DOM elements
-  const searchInput = document.getElementById("search-input");
-  const difficultyFilter = document.getElementById("difficulty-filter");
-
-  const categoryCheckboxes = Array.from(
-    document.querySelectorAll(".filters__category")
+  // 3. Check all category checkboxes by default for initial full display
+  Array.from(document.querySelectorAll(".filters__category")).forEach(
+    (cb) => (cb.checked = true)
   );
 
-  // Sliders for prep and cook times
-  const prepTimeMinSlider = document.getElementById("prep-time-min");
-  const prepTimeMaxSlider = document.getElementById("prep-time-max");
-  const prepTimeMinValue = document.getElementById("prep-time-min-value");
-  const prepTimeMaxValue = document.getElementById("prep-time-max-value");
+  // 4. Sync filterManager's selected categories to all categories for broad match
+  filterManager.setCategories([
+    "veg",
+    "vegetarian",
+    "nonveg",
+    "fruit",
+    "dessert",
+  ]);
 
-  const cookTimeMinSlider = document.getElementById("cook-time-min");
-  const cookTimeMaxSlider = document.getElementById("cook-time-max");
-  const cookTimeMinValue = document.getElementById("cook-time-min-value");
-  const cookTimeMaxValue = document.getElementById("cook-time-max-value");
+  // 5. For debugging convenience, expose managers on window
+  window.filterManager = filterManager;
+  window.uiManager = uiManager;
 
-  /** Helper to get checked categories array */
-  function getSelectedCategories() {
-    return categoryCheckboxes.filter((cb) => cb.checked).map((cb) => cb.value);
+  // 6. Helper to retrieve all recipes safely from storage
+  function getAllRecipes() {
+    return storage.getAll();
   }
 
-  /** Core filter application */
+  // 7. Applies filters to all recipes and updates UI
   function applyFilters() {
-    const allRecipes = storage.getAll();
+    const allRecipes = getAllRecipes();
     const filtered = filterManager.filter(allRecipes);
+
     if (filtered.length === 0) {
       uiManager.renderEmptyState();
     } else {
       uiManager.renderRecipeList(filtered);
     }
     uiManager.renderFilterCount(filtered.length, allRecipes.length);
-
-    // TODO: Update an "Active Filters" summary here for accessibility & UX
   }
 
-  const debouncedApplyFilters = debounce(applyFilters, 300);
+  // 8. Call once on page load for initial render
+  applyFilters();
 
-  // Initialize slider values UI on load to match FilterManager defaults
-  function initSliders() {
-    if (prepTimeMinSlider && prepTimeMinValue) {
-      prepTimeMinSlider.value = filterManager.prepTimeMin;
-      prepTimeMinValue.textContent = filterManager.prepTimeMin;
-    }
-    if (prepTimeMaxSlider && prepTimeMaxValue) {
-      prepTimeMaxSlider.value = filterManager.prepTimeMax;
-      prepTimeMaxValue.textContent = filterManager.prepTimeMax;
-    }
-    if (cookTimeMinSlider && cookTimeMinValue) {
-      cookTimeMinSlider.value = filterManager.cookTimeMin;
-      cookTimeMinValue.textContent = filterManager.cookTimeMin;
-    }
-    if (cookTimeMaxSlider && cookTimeMaxValue) {
-      cookTimeMaxSlider.value = filterManager.cookTimeMax;
-      cookTimeMaxValue.textContent = filterManager.cookTimeMax;
-    }
+  // 9. Hook up event listeners on filter inputs/buttons
+
+  // Search Input
+  const searchInput = document.getElementById("search-input");
+  if (searchInput) {
+    searchInput.addEventListener("input", (event) => {
+      filterManager.setSearchTerm(event.target.value);
+      applyFilters();
+    });
   }
 
-  initSliders();
+  // Difficulty Dropdown
+  const difficultyFilter = document.getElementById("difficulty-filter");
+  if (difficultyFilter) {
+    difficultyFilter.addEventListener("change", (event) => {
+      filterManager.setDifficulty(event.target.value);
+      applyFilters();
+    });
+  }
 
-  // Search input listener
-  searchInput.addEventListener("input", (event) => {
-    filterManager.setSearchTerm(event.target.value);
-    debouncedApplyFilters();
-  });
-
-  // Difficulty dropdown
-  difficultyFilter.addEventListener("change", (event) => {
-    filterManager.setDifficulty(event.target.value);
-    applyFilters();
-  });
-
-  // Category checkboxes event
-  categoryCheckboxes.forEach((cb) => {
+  // Category Checkboxes
+  Array.from(document.querySelectorAll(".filters__category")).forEach((cb) => {
     cb.addEventListener("change", () => {
-      filterManager.setCategories(getSelectedCategories());
+      const selectedCategories = Array.from(
+        document.querySelectorAll(".filters__category:checked")
+      ).map((cb) => cb.value);
+      filterManager.setCategories(selectedCategories);
       applyFilters();
     });
   });
 
-  // Debounced slider input handlers for performance
-  const debouncedPrepMin = debounce((value) => {
-    filterManager.setPrepTime(value);
-    applyFilters();
-  }, 250);
-
-  const debouncedPrepMax = debounce((value) => {
-    // Assuming you add setPrepTimeMax to FilterManager for max slider support
-    if (filterManager.setPrepTimeMax) filterManager.setPrepTimeMax(value);
-    applyFilters();
-  }, 250);
-
-  const debouncedCookMin = debounce((value) => {
-    filterManager.setCookTime(value);
-    applyFilters();
-  }, 250);
-
-  const debouncedCookMax = debounce((value) => {
-    // Assuming you add setCookTimeMax to FilterManager for max slider support
-    if (filterManager.setCookTimeMax) filterManager.setCookTimeMax(value);
-    applyFilters();
-  }, 250);
-
-  // Prep Time Min slider
-  if (prepTimeMinSlider && prepTimeMinValue) {
-    prepTimeMinSlider.addEventListener("input", (e) => {
-      const val = parseInt(e.target.value, 10);
-      prepTimeMinValue.textContent = val;
-      debouncedPrepMin(val);
+  // Prep Time Sliders (if present)
+  const prepTimeMinSlider = document.getElementById("prep-time-min");
+  const prepTimeMaxSlider = document.getElementById("prep-time-max");
+  if (prepTimeMinSlider) {
+    prepTimeMinSlider.addEventListener("input", (event) => {
+      filterManager.setPrepTime(
+        Number(event.target.value),
+        filterManager.prepTimeMax
+      );
+      applyFilters();
+    });
+  }
+  if (prepTimeMaxSlider) {
+    prepTimeMaxSlider.addEventListener("input", (event) => {
+      filterManager.setPrepTime(
+        filterManager.prepTimeMin,
+        Number(event.target.value)
+      );
+      applyFilters();
     });
   }
 
-  // Prep Time Max slider
-  if (prepTimeMaxSlider && prepTimeMaxValue) {
-    prepTimeMaxSlider.addEventListener("input", (e) => {
-      const val = parseInt(e.target.value, 10);
-      prepTimeMaxValue.textContent = val;
-      debouncedPrepMax(val);
+  // Cook Time Sliders (if present)
+  const cookTimeMinSlider = document.getElementById("cook-time-min");
+  const cookTimeMaxSlider = document.getElementById("cook-time-max");
+  if (cookTimeMinSlider) {
+    cookTimeMinSlider.addEventListener("input", (event) => {
+      filterManager.setCookTime(
+        Number(event.target.value),
+        filterManager.cookTimeMax
+      );
+      applyFilters();
+    });
+  }
+  if (cookTimeMaxSlider) {
+    cookTimeMaxSlider.addEventListener("input", (event) => {
+      filterManager.setCookTime(
+        filterManager.cookTimeMin,
+        Number(event.target.value)
+      );
+      applyFilters();
     });
   }
 
-  // Cook Time Min slider
-  if (cookTimeMinSlider && cookTimeMinValue) {
-    cookTimeMinSlider.addEventListener("input", (e) => {
-      const val = parseInt(e.target.value, 10);
-      cookTimeMinValue.textContent = val;
-      debouncedCookMin(val);
-    });
-  }
-
-  // Cook Time Max slider
-  if (cookTimeMaxSlider && cookTimeMaxValue) {
-    cookTimeMaxSlider.addEventListener("input", (e) => {
-      const val = parseInt(e.target.value, 10);
-      cookTimeMaxValue.textContent = val;
-      debouncedCookMax(val);
-    });
-  }
-
-  // Initial render
-  applyFilters();
-}
-
-document.addEventListener("DOMContentLoaded", main);
+  // 10. Optional debug logs for storage state and recipe count
+  console.log(
+    "Seeded recipes stored under " + STORAGE_KEY + ":",
+    localStorage.getItem(STORAGE_KEY)
+  );
+  console.log("Number of recipes loaded:", getAllRecipes().length);
+});
