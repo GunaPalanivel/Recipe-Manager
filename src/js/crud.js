@@ -1,5 +1,5 @@
-import { StorageManager } from "./storage.js";
-import { createRecipe } from "./recipe.js";
+import { StorageManager } from "../js/modules/storage.js";
+import { createRecipe } from "../js/modules/recipe.js";
 
 export class CRUDManager {
   constructor() {

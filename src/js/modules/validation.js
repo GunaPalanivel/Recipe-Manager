@@ -12,7 +12,7 @@
  * @module validation
  */
 
-import { VALIDATION_RULES } from "../utils/constants.js";
+import { VALIDATION_RULES } from "../../utils/constants.js";
 
 export class ValidationManager {
   constructor(formId) {
@@ -135,12 +135,11 @@ export class ValidationManager {
   }
 
   isValidURL(url) {
-    try {
-      const u = new URL(url);
-      return u.protocol === "http:" || u.protocol === "https:";
-    } catch (_) {
-      return false;
+    // Accept http(s) URLs or local images in /src/assets/ or /assets/
+    if (/^(https?:\/\/|\/(src\/)?assets\/)/.test(url)) {
+      return true;
     }
+    return false;
   }
 
   validateAll(formData) {

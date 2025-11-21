@@ -3,7 +3,7 @@
  * @module recipe
  */
 
-import { DIFFICULTY_LEVELS, VALIDATION_RULES } from "../utils/constants.js";
+import { DIFFICULTY_LEVELS, VALIDATION_RULES } from "../../utils/constants.js";
 
 function generateUUID() {
   if (crypto?.randomUUID) return crypto.randomUUID();
@@ -113,12 +113,8 @@ export class Recipe {
   }
 
   _isValidURL(url) {
-    try {
-      const u = new URL(url);
-      return u.protocol === "http:" || u.protocol === "https:";
-    } catch (_) {
-      return false;
-    }
+    // Accept remote URLs (http, https) OR any path starting with "/"
+    return /^(https?:\/\/|\/)/.test(url);
   }
 }
 
@@ -126,6 +122,7 @@ export function createRecipe(data) {
   try {
     return new Recipe(data);
   } catch (error) {
+    alert("Invalid recipe data: " + error.message); // Shows user the actual cause
     console.warn("Invalid recipe data:", error.message);
     return null;
   }

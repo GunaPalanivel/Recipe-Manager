@@ -1,7 +1,7 @@
 import { StorageManager } from "./modules/storage.js";
 import { createRecipe } from "./modules/recipe.js";
 import { ValidationManager } from "./modules/validation.js";
-import { debounce } from "./utils/helpers.js";
+import { debounce } from "../utils/helpers.js";
 import { CRUDManager } from "./crud.js";
 
 const storage = new StorageManager();

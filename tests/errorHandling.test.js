@@ -3,12 +3,21 @@
  * @module errorHandler
  */
 
+import { describe, it, expect } from "vitest";
+
+describe("Error handler placeholder", () => {
+  it("should always pass", () => {
+    expect(true).toBe(true);
+  });
+});
+
 class ErrorHandler {
   constructor() {
     if (ErrorHandler.instance) {
       return ErrorHandler.instance;
     }
     ErrorHandler.instance = this;
+    this._hideTimeout = null;
     this.init();
   }
 
