@@ -6,7 +6,6 @@ export class FilterManager {
   constructor() {
     this.searchTerm = "";
     this.difficulty = DIFFICULTY_LEVELS.ALL;
-    // Support multiple category selection (array of strings)
     this.selectedCategories = [
       "veg",
       "vegetarian",
@@ -32,10 +31,9 @@ export class FilterManager {
     }
   }
 
-  // Set multiple selected categories
   setCategories(categories) {
     if (Array.isArray(categories)) {
-      this.selectedCategories = categories;
+      this.selectedCategories = categories.map((c) => c.toLowerCase());
     } else {
       this.selectedCategories = [];
     }
@@ -59,11 +57,6 @@ export class FilterManager {
     }
   }
 
-  /**
-   * Filters recipes based on current criteria.
-   * @param {Array} recipes
-   * @returns {Array} filtered recipes
-   */
   filter(recipes) {
     if (!Array.isArray(recipes)) return [];
 
@@ -77,7 +70,6 @@ export class FilterManager {
         : new Set([this.difficulty]);
 
     return recipes.filter((recipe) => {
-      // Search filter (title or description)
       if (
         this.searchTerm &&
         !(
@@ -87,57 +79,52 @@ export class FilterManager {
             recipe.description.toLowerCase().includes(this.searchTerm))
         )
       ) {
+        // console.log(`Filtered by search: ${recipe.title}`);
         return false;
       }
 
-      // Difficulty filter
-      if (!difficultySet.has(recipe.difficulty)) {
+      // Safe difficulty match
+      const recipeDifficulty =
+        typeof recipe.difficulty === "string"
+          ? recipe.difficulty.toLowerCase()
+          : "";
+      if (!difficultySet.has(recipeDifficulty)) {
+        // console.log(`Filtered by difficulty: ${recipe.title} (${recipe.difficulty})`);
         return false;
       }
 
-      // Category multi-select filter
-      // If no categories selected => exclude all
+      // Safe category match
+      const recipeCategory =
+        typeof recipe.category === "string"
+          ? recipe.category.toLowerCase()
+          : "";
       if (
         this.selectedCategories.length === 0 ||
-        !this.selectedCategories.includes(recipe.category)
+        !this.selectedCategories.includes(recipeCategory)
       ) {
+        // console.log(`Filtered by category: ${recipe.title} (${recipe.category})`);
         return false;
       }
 
-      // Prep time min filter
       if (
         typeof recipe.prepTime === "number" &&
-        recipe.prepTime < this.prepTimeMin
+        (recipe.prepTime < this.prepTimeMin ||
+          recipe.prepTime > this.prepTimeMax)
       ) {
+        // console.log(`Filtered by prepTime: ${recipe.title} (${recipe.prepTime} min)`);
         return false;
       }
 
-      // Prep time max filter
-      if (
-        this.prepTimeMax !== null &&
-        typeof recipe.prepTime === "number" &&
-        recipe.prepTime > this.prepTimeMax
-      ) {
-        return false;
-      }
-
-      // Cook time min filter
       if (
         typeof recipe.cookTime === "number" &&
-        recipe.cookTime < this.cookTimeMin
+        (recipe.cookTime < this.cookTimeMin ||
+          recipe.cookTime > this.cookTimeMax)
       ) {
+        // console.log(`Filtered by cookTime: ${recipe.title} (${recipe.cookTime} min)`);
         return false;
       }
 
-      // Cook time max filter
-      if (
-        this.cookTimeMax !== null &&
-        typeof recipe.cookTime === "number" &&
-        recipe.cookTime > this.cookTimeMax
-      ) {
-        return false;
-      }
-
+      // console.log(`Included: ${recipe.title}`);
       return true;
     });
   }
