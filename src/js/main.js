@@ -6,6 +6,15 @@ import { FilterManager } from "./modules/filters.js";
 import { sampleRecipes } from "../data/sample-recipes.js";
 import { STORAGE_KEY } from "../utils/constants.js";
 
+import "../css/main.css";
+import "../css/components/card.css";
+import "../css/components/filters.css";
+import "../css/components/form.css";
+import "../css/components/modal.css";
+import "../css/utils/reset.css";
+import "../css/utils/variables.css";
+// Import every style you need across your app!
+
 document.addEventListener("DOMContentLoaded", () => {
   // 1. Initialize storage and seed sample data if none exists
   const storage = new StorageManager();
