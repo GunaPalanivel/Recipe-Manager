@@ -134,9 +134,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // 10. Optional debug logs for storage state and recipe count
-  console.log(
-    "Seeded recipes stored under " + STORAGE_KEY + ":",
-    localStorage.getItem(STORAGE_KEY)
-  );
-  console.log("Number of recipes loaded:", getAllRecipes().length);
+  // console.log(
+  //   "Seeded recipes stored under " + STORAGE_KEY + ":",
+  //   localStorage.getItem(STORAGE_KEY)
+  // );
+  // console.log("Number of recipes loaded:", getAllRecipes().length);
 });
