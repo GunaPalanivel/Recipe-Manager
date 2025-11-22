@@ -4,7 +4,7 @@ export const sampleRecipes = [
   // Easy Recipes (5)
   {
     id: "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
-    title: "Classic Tomato Soup",
+    title: "Tomato Soup",
     description: "A warm, comforting tomato soup perfect for any season.",
     category: "veg",
     ingredients: [
@@ -52,9 +52,8 @@ export const sampleRecipes = [
 
   {
     id: "c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f",
-    title: "Grilled Cheese Sandwich",
-    description:
-      "Golden and crispy grilled cheese sandwich with melted cheese.",
+    title: "Cheese Toastie",
+    description: "Golden and crispy Cheese Toastie with melted cheese.",
     category: "vegetarian",
     ingredients: ["2 slices bread", "2 slices cheddar cheese", "Butter"],
     steps: [
@@ -97,7 +96,7 @@ export const sampleRecipes = [
 
   {
     id: "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8a9b",
-    title: "Peanut Butter Banana Toast",
+    title: "Elvis Toast",
     description: "Creamy peanut butter with sliced banana on toasted bread.",
     category: "vegetarian",
     ingredients: [
@@ -122,7 +121,7 @@ export const sampleRecipes = [
   // Medium Recipes (5)
   {
     id: "f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f8a9b0c",
-    title: "Chicken Alfredo Pasta",
+    title: "Alfredo Pasta",
     description:
       "Creamy Alfredo sauce with grilled chicken and fettuccine pasta.",
     category: "nonveg",
@@ -151,8 +150,8 @@ export const sampleRecipes = [
 
   {
     id: "a7b8c9d0-e1f2-4a3b-4c5d-6e7f8a9b0c1d",
-    title: "Beef Stir Fry",
-    description: "Quick and flavorful beef stir fry with vegetables.",
+    title: "Beef Stirfry",
+    description: "Quick and flavorful Beef Stirfry with vegetables.",
     category: "nonveg",
     ingredients: [
       "300g beef strips",
@@ -179,7 +178,7 @@ export const sampleRecipes = [
 
   {
     id: "b8c9d0e1-f2a3-4b4c-5d6e-7f8a9b0c1d2e",
-    title: "Vegetable Lasagna",
+    title: "Veg Lasagna",
     description: "Layered lasagna with mixed vegetables and cheese.",
     category: "vegetarian",
     ingredients: [
@@ -234,7 +233,7 @@ export const sampleRecipes = [
 
   {
     id: "d0e1f2a3-b4c5-4d6e-7f8a-9b0c1d2e3f4a",
-    title: "Stuffed Bell Peppers",
+    title: "Stuffed Peppers",
     description: "Bell peppers stuffed with rice, beans, and cheese.",
     category: "vegetarian",
     ingredients: [
@@ -292,7 +291,7 @@ export const sampleRecipes = [
 
   {
     id: "f2a3b4c5-d6e7-4f8a-9b0c-1d2e3f4a5b6c",
-    title: "Coq au Vin",
+    title: "Coq Vin",
     description: "French chicken stew braised with wine, mushrooms, and bacon.",
     category: "nonveg",
     ingredients: [
@@ -348,7 +347,7 @@ export const sampleRecipes = [
 
   {
     id: "b4c5d6e7-f8a9-4b0c-1d2e-3f4a5b6c7d8e",
-    title: "Duck à l'Orange",
+    title: "Duck l'Orange",
     description: "Roast duck with tangy orange sauce.",
     category: "nonveg",
     ingredients: [

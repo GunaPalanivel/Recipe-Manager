@@ -181,7 +181,7 @@ Each recipe object in the array follows this structure:
 ```js
 {
   id: "uuid-v4-string",              // Unique identifier for the recipe
-  title: "Classic Tomato Soup",      // Recipe name
+  title: "Tomato Soup",      // Recipe name
   description: "A warm, comforting tomato soup perfect for any season.", // Brief description
   ingredients: [                     // List of ingredients
     "4 large tomatoes",

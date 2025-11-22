@@ -17,7 +17,7 @@ const RECIPES = [
   },
   {
     id: "2",
-    title: "Beef Stir Fry",
+    title: "Beef Stirfry",
     description: "Meaty",
     difficulty: "medium",
     category: "nonveg",
@@ -35,7 +35,7 @@ const RECIPES = [
   },
   {
     id: "4",
-    title: "Vegetable Lasagna",
+    title: "Veg Lasagna",
     description: "Cheesy",
     difficulty: "medium",
     category: "vegetarian",
@@ -74,7 +74,7 @@ describe("FilterManager", () => {
     filter.setSearchTerm("cheesy");
     result = filter.filter(RECIPES);
     expect(result).toHaveLength(1);
-    expect(result[0].title).toBe("Vegetable Lasagna");
+    expect(result[0].title).toBe("Veg Lasagna");
   });
 
   it("filters by difficulty correctly", () => {
@@ -123,7 +123,7 @@ describe("FilterManager", () => {
 
     const result = filter.filter(RECIPES);
     expect(result).toHaveLength(1);
-    expect(result[0].title).toBe("Vegetable Lasagna");
+    expect(result[0].title).toBe("Veg Lasagna");
   });
 
   it("returns all recipes when no filters applied", () => {

@@ -76,6 +76,15 @@ export class UIManager {
     title.className = "recipe-card__title";
     title.textContent = recipe.title;
 
+    // Category badge
+    if (recipe.category) {
+      const badge = document.createElement("span");
+      badge.className = `badge badge--category badge--${recipe.category}`;
+      badge.textContent =
+        recipe.category.charAt(0).toUpperCase() + recipe.category.slice(1);
+      title.appendChild(badge);
+    }
+
     // Description
     const description = document.createElement("p");
     description.className = "recipe-card__description";
