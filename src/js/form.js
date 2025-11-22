@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     return div;
   }
+  //
 
   addIngredientBtn.addEventListener("click", () => {
     ingredientsList.appendChild(createIngredientField());
