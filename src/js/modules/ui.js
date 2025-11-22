@@ -41,6 +41,7 @@ export class UIManager {
     card.setAttribute("role", "region");
     card.setAttribute("aria-label", `Recipe: ${recipe.title}`);
 
+    // Image setup: use actual image, fallback to placeholder if not found
     const img = document.createElement("img");
     img.className = "recipe-card__image";
     img.alt = recipe.title;
@@ -50,40 +51,42 @@ export class UIManager {
     );
     img.src = "/assets/images/placeholder.jpg";
 
-    // Lazy load fallback handling
+    // Get image path, fallback if empty
+    const imgPath =
+      recipe.imageURL && typeof recipe.imageURL === "string"
+        ? recipe.imageURL
+        : "/assets/images/placeholder.jpg";
+
+    // Set placeholder as initial src for lazy loading
+    img.src = "/assets/images/placeholder.jpg";
+    img.setAttribute("data-src", imgPath);
+
+    // Robust error fallback
     img.onerror = () => {
       img.src = "/assets/images/placeholder.jpg";
     };
 
-    this.intersectionObserver.observe(img);
+    // Observe the image for lazy loading if supported, else load directly
+    if (this.intersectionObserver) {
+      this.intersectionObserver.observe(img);
+    } else {
+      img.src = imgPath;
+    }
 
     const content = document.createElement("div");
     content.className = "recipe-card__content";
 
-    /*** START CATEGORY BADGE ADDITION ***/
-    let categoryBadge = null;
-    if (recipe.category) {
-      const categoryLabel =
-        recipe.category.charAt(0).toUpperCase() + recipe.category.slice(1);
-      categoryBadge = document.createElement("span");
-      categoryBadge.className = `badge badge--category badge--${recipe.category}`;
-      categoryBadge.setAttribute("aria-label", `Category: ${categoryLabel}`);
-      categoryBadge.textContent = categoryLabel;
-    }
-    /*** END CATEGORY BADGE ADDITION ***/
-
+    // Title element
     const title = document.createElement("h2");
     title.className = "recipe-card__title";
     title.textContent = recipe.title;
 
-    if (categoryBadge) {
-      title.appendChild(categoryBadge); // Add badge inline with title
-    }
-
+    // Description
     const description = document.createElement("p");
     description.className = "recipe-card__description";
     description.textContent = recipe.description;
 
+    // Meta info: prep/cook times and difficulty
     const meta = document.createElement("div");
     meta.className = "recipe-card__meta";
 
