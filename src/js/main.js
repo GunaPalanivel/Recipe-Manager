@@ -1,6 +1,6 @@
 "use strict";
 
-// Import ALL CSS (for Vite bundling)
+// Import CSS for Vite bundling (leave as-is)
 import "../css/main.css";
 import "../css/components/card.css";
 import "../css/components/filters.css";
@@ -9,18 +9,18 @@ import "../css/components/modal.css";
 import "../css/utils/reset.css";
 import "../css/utils/variables.css";
 
-// Static imports for shared JS (these get tree-shaken if not used)
+// Import shared JS up top
 import { StorageManager } from "./modules/storage.js";
 import { UIManager } from "./modules/ui.js";
 import { FilterManager } from "./modules/filters.js";
 import { sampleRecipes } from "../data/sample-recipes.js";
 import { STORAGE_KEY } from "../utils/constants.js";
 
-// Wait for DOM loaded to run page code
+// Only run logic for pages if their key element exists
 document.addEventListener("DOMContentLoaded", () => {
-  // --- Home page logic ---
+  // --- Home page ONLY ---
   if (document.getElementById("recipe-list")) {
-    // UI and filter managers for homepage only
+    // Everything that uses UIManager, recipe-list, etc.
     const storage = new StorageManager();
     storage.seed(sampleRecipes);
 
@@ -46,16 +46,13 @@ document.addEventListener("DOMContentLoaded", () => {
     function applyFilters() {
       const allRecipes = getAllRecipes();
       const filtered = filterManager.filter(allRecipes);
-      if (filtered.length === 0) {
-        uiManager.renderEmptyState();
-      } else {
-        uiManager.renderRecipeList(filtered);
-      }
+      if (filtered.length === 0) uiManager.renderEmptyState();
+      else uiManager.renderRecipeList(filtered);
       uiManager.renderFilterCount(filtered.length, allRecipes.length);
     }
     applyFilters();
 
-    // Home page event setup
+    // Homepage event listeners
     const searchInput = document.getElementById("search-input");
     if (searchInput) {
       searchInput.addEventListener("input", (event) => {
@@ -81,7 +78,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     );
-    // Prep/cook time slider events
     const prepTimeMinSlider = document.getElementById("prep-time-min");
     const prepTimeMaxSlider = document.getElementById("prep-time-max");
     const prepTimeMinValue = document.getElementById("prep-time-min-value");
@@ -124,12 +120,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // --- Form page logic ---
+  // --- FORM PAGE ---
   if (document.getElementById("recipe-form")) {
     import("./form.js");
   }
 
-  // --- Detail page logic ---
+  // --- DETAIL PAGE ---
   if (document.querySelector(".recipe-detail")) {
     import("./detail.js");
   }
