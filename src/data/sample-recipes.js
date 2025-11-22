@@ -3,9 +3,10 @@ import { DIFFICULTY_LEVELS } from "../utils/constants.js";
 export const sampleRecipes = [
   // Easy Recipes (5)
   {
-    id: "easy-1",
+    id: "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
     title: "Classic Tomato Soup",
     description: "A warm, comforting tomato soup perfect for any season.",
+    category: "veg",
     ingredients: [
       "4 large tomatoes",
       "1 onion",
@@ -29,9 +30,10 @@ export const sampleRecipes = [
   },
 
   {
-    id: "easy-2",
+    id: "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
     title: "Scrambled Eggs",
     description: "Fluffy scrambled eggs with a creamy texture.",
+    category: "vegetarian",
     ingredients: ["4 eggs", "2 tbsp milk", "Salt", "Pepper", "Butter"],
     steps: [
       "Crack eggs into bowl.",
@@ -45,11 +47,13 @@ export const sampleRecipes = [
     difficulty: DIFFICULTY_LEVELS.EASY,
     imageURL: "/assets/images/easy/scrambled-eggs.jpg",
   },
+
   {
-    id: "easy-3",
+    id: "c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f",
     title: "Grilled Cheese Sandwich",
     description:
       "Golden and crispy grilled cheese sandwich with melted cheese.",
+    category: "vegetarian",
     ingredients: ["2 slices bread", "2 slices cheddar cheese", "Butter"],
     steps: [
       "Butter one side of each bread slice.",
@@ -61,11 +65,13 @@ export const sampleRecipes = [
     difficulty: DIFFICULTY_LEVELS.EASY,
     imageURL: "/assets/images/easy/grilled-cheese.jpg",
   },
+
   {
-    id: "easy-4",
+    id: "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8a",
     title: "Fruit Salad",
     description:
       "Refreshing mix of seasonal fruits with a honey lime dressing.",
+    category: "fruit",
     ingredients: [
       "1 cup strawberries",
       "1 cup blueberries",
@@ -84,10 +90,12 @@ export const sampleRecipes = [
     difficulty: DIFFICULTY_LEVELS.EASY,
     imageURL: "/assets/images/easy/fruit-salad.jpg",
   },
+
   {
-    id: "easy-5",
+    id: "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8a9b",
     title: "Peanut Butter Banana Toast",
     description: "Creamy peanut butter with sliced banana on toasted bread.",
+    category: "vegetarian",
     ingredients: [
       "1 slice whole wheat bread",
       "2 tbsp peanut butter",
@@ -108,10 +116,11 @@ export const sampleRecipes = [
 
   // Medium Recipes (5)
   {
-    id: "medium-1",
+    id: "f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f8a9b0c",
     title: "Chicken Alfredo Pasta",
     description:
       "Creamy Alfredo sauce with grilled chicken and fettuccine pasta.",
+    category: "nonveg",
     ingredients: [
       "200g fettuccine",
       "150g chicken breast",
@@ -133,10 +142,12 @@ export const sampleRecipes = [
     difficulty: DIFFICULTY_LEVELS.MEDIUM,
     imageURL: "/assets/images/medium/chicken-alfredo.jpg",
   },
+
   {
-    id: "medium-2",
+    id: "a7b8c9d0-e1f2-4a3b-4c5d-6e7f8a9b0c1d",
     title: "Beef Stir Fry",
     description: "Quick and flavorful beef stir fry with vegetables.",
+    category: "nonveg",
     ingredients: [
       "300g beef strips",
       "1 bell pepper",
@@ -158,10 +169,12 @@ export const sampleRecipes = [
     difficulty: DIFFICULTY_LEVELS.MEDIUM,
     imageURL: "/assets/images/medium/beef-stir-fry.jpg",
   },
+
   {
-    id: "medium-3",
+    id: "b8c9d0e1-f2a3-4b4c-5d6e-7f8a9b0c1d2e",
     title: "Vegetable Lasagna",
     description: "Layered lasagna with mixed vegetables and cheese.",
+    category: "vegetarian",
     ingredients: [
       "Lasagna noodles",
       "Tomato sauce",
@@ -183,10 +196,12 @@ export const sampleRecipes = [
     difficulty: DIFFICULTY_LEVELS.MEDIUM,
     imageURL: "/assets/images/medium/vegetable-lasagna.jpg",
   },
+
   {
-    id: "medium-4",
+    id: "c9d0e1f2-a3b4-4c5d-6e7f-8a9b0c1d2e3f",
     title: "Shrimp Scampi",
     description: "Garlic butter shrimp served over linguine.",
+    category: "nonveg",
     ingredients: [
       "200g shrimp",
       "3 cloves garlic",
@@ -207,10 +222,12 @@ export const sampleRecipes = [
     difficulty: DIFFICULTY_LEVELS.MEDIUM,
     imageURL: "/assets/images/medium/shrimp-scampi.jpg",
   },
+
   {
-    id: "medium-5",
+    id: "d0e1f2a3-b4c5-4d6e-7f8a-9b0c1d2e3f4a",
     title: "Stuffed Bell Peppers",
     description: "Bell peppers stuffed with rice, beans, and cheese.",
+    category: "vegetarian",
     ingredients: [
       "4 bell peppers",
       "1 cup cooked rice",
@@ -234,10 +251,11 @@ export const sampleRecipes = [
 
   // Hard Recipes (5)
   {
-    id: "hard-1",
+    id: "e1f2a3b4-c5d6-4e7f-8a9b-0c1d2e3f4a5b",
     title: "Beef Wellington",
     description:
       "Classic Beef Wellington with mushroom duxelles and puff pastry.",
+    category: "nonveg",
     ingredients: [
       "1 beef tenderloin",
       "250g mushrooms",
@@ -260,10 +278,12 @@ export const sampleRecipes = [
     difficulty: DIFFICULTY_LEVELS.HARD,
     imageURL: "/assets/images/hard/beef-wellington.jpg",
   },
+
   {
-    id: "hard-2",
+    id: "f2a3b4c5-d6e7-4f8a-9b0c-1d2e3f4a5b6c",
     title: "Coq au Vin",
     description: "French chicken stew braised with wine, mushrooms, and bacon.",
+    category: "nonveg",
     ingredients: [
       "1 whole chicken",
       "1 bottle red wine",
@@ -285,10 +305,12 @@ export const sampleRecipes = [
     difficulty: DIFFICULTY_LEVELS.HARD,
     imageURL: "/assets/images/hard/coq-au-vin.jpg",
   },
+
   {
-    id: "hard-3",
+    id: "a3b4c5d6-e7f8-4a9b-0c1d-2e3f4a5b6c7d",
     title: "Soufflé",
     description: "Light and airy cheese soufflé requiring precise timing.",
+    category: "vegetarian",
     ingredients: [
       "4 eggs",
       "1 cup milk",
@@ -310,10 +332,12 @@ export const sampleRecipes = [
     difficulty: DIFFICULTY_LEVELS.HARD,
     imageURL: "/assets/images/hard/souffle.jpg",
   },
+
   {
-    id: "hard-4",
+    id: "b4c5d6e7-f8a9-4b0c-1d2e-3f4a5b6c7d8e",
     title: "Duck à l'Orange",
     description: "Roast duck with tangy orange sauce.",
+    category: "nonveg",
     ingredients: [
       "1 whole duck",
       "2 oranges",
@@ -333,10 +357,12 @@ export const sampleRecipes = [
     difficulty: DIFFICULTY_LEVELS.HARD,
     imageURL: "/assets/images/hard/duck-orange.jpg",
   },
+
   {
-    id: "hard-5",
+    id: "c5d6e7f8-a9b0-4c1d-2e3f-4a5b6c7d8e9f",
     title: "Baked Alaska",
     description: "Ice cream and cake dessert topped with toasted meringue.",
+    category: "dessert",
     ingredients: [
       "Sponge cake",
       "Ice cream",
