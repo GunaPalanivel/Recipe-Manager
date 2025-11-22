@@ -16,7 +16,7 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: "pages",
+          src: "pages", // copies `pages/` to `dist/pages/`
           dest: "",
         },
       ],
@@ -37,18 +37,14 @@ export default defineConfig({
     sourcemap: true,
     minify: "terser",
     target: "es2020",
-
-    // Rollup options
     rollupOptions: {
       output: {
         manualChunks: {
-          // Code splitting strategy
+          // Code splitting strategy for vendor (example)
           vendor: ["vitest"],
         },
       },
     },
-
-    // Terser options for minification
     terserOptions: {
       compress: {
         drop_console: true,
