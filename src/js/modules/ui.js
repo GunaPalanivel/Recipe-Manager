@@ -45,6 +45,11 @@ export class UIManager {
     const img = document.createElement("img");
     img.className = "recipe-card__image";
     img.alt = recipe.title;
+    img.setAttribute(
+      "data-src",
+      recipe.imageURL || "/assets/images/placeholder.jpg"
+    );
+    img.src = "/assets/images/placeholder.jpg";
 
     // Get image path, fallback if empty
     const imgPath =

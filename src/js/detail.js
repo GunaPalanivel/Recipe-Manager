@@ -28,7 +28,7 @@ function renderRecipe(recipe) {
   `;
 
   detailContainer.innerHTML = `
-    <h1 class="recipe-detail__title">${recipe.title}</h1>
+    <h1 class="recipe-detail__title">${recipe.title} ${categoryBadge}</h1>
     <img src="${recipe.imageURL || "/assets/images/placeholder.jpg"}" alt="${recipe.title}" class="recipe-detail__image" />
     <section class="recipe-detail__section">
       <h2>Description</h2>
