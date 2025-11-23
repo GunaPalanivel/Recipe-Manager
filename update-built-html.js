@@ -7,24 +7,39 @@ const distDir = path.resolve(__dirname, "dist");
 const assetsDir = path.join(distDir, "assets");
 const pagesDir = path.join(distDir, "pages");
 
-// Dynamically find the built CSS and JS files
-function findAssetFiles() {
+// Find CSS file (shared across all pages)
+function findCssFile() {
   const files = fs.readdirSync(assetsDir);
-  
   const cssFile = files.find(
     (file) => file.startsWith("index-") && file.endsWith(".css")
   );
-  const jsFile = files.find(
-    (file) => file.startsWith("index-") && file.endsWith(".js")
-  );
 
-  if (!cssFile || !jsFile) {
-    console.error("❌ Could not find built CSS or JS files in /assets/");
+  if (!cssFile) {
+    console.error("❌ Could not find built CSS file in /assets/");
     console.log("Available files:", files);
     process.exit(1);
   }
 
-  return { cssFile, jsFile };
+  return cssFile;
+}
+
+// Find JS file for a specific page (e.g., "index", "detail", "form")
+function findJsFileForPage(pageName) {
+  const files = fs.readdirSync(assetsDir);
+  const jsFile = files.find(
+    (file) => file.startsWith(`${pageName}-`) && file.endsWith(".js")
+  );
+
+  if (!jsFile) {
+    console.error(`❌ Could not find JS file for page: ${pageName}`);
+    console.log(
+      "Available JS files:",
+      files.filter((f) => f.endsWith(".js"))
+    );
+    process.exit(1);
+  }
+
+  return jsFile;
 }
 
 function updateHtmlFile(filePath, cssFileName, jsFileName) {
@@ -49,37 +64,47 @@ function updateHtmlFile(filePath, cssFileName, jsFileName) {
   html = html.replace("</head>", `${injection}\n</head>`);
 
   fs.writeFileSync(filePath, html, "utf-8");
-  console.log(`✅ Updated ${path.basename(filePath)}`);
+  console.log(`✅ Updated ${path.basename(filePath)} → JS: ${jsFileName}`);
 }
 
 function main() {
   console.log("🔧 Starting HTML update process...\n");
 
-  // Check if pages directory exists
-  if (!fs.existsSync(pagesDir)) {
-    console.error("❌ Pages directory not found:", pagesDir);
-    process.exit(1);
+  // Find shared CSS file
+  const cssFile = findCssFile();
+  console.log(`📦 Found CSS: ${cssFile}\n`);
+
+  // Update root index.html with index.js bundle
+  const rootIndexPath = path.join(distDir, "index.html");
+  if (fs.existsSync(rootIndexPath)) {
+    const indexJsFile = findJsFileForPage("index");
+    updateHtmlFile(rootIndexPath, cssFile, indexJsFile);
+  } else {
+    console.warn("⚠️  Root index.html not found in dist/");
   }
 
-  // Find the built assets
-  const { cssFile, jsFile } = findAssetFiles();
-  console.log(`📦 Found assets:\n  - CSS: ${cssFile}\n  - JS: ${jsFile}\n`);
+  // Update HTML files in pages directory
+  if (fs.existsSync(pagesDir)) {
+    const htmlFiles = fs
+      .readdirSync(pagesDir)
+      .filter((file) => file.endsWith(".html"));
 
-  // Update all HTML files in pages directory
-  const htmlFiles = fs
-    .readdirSync(pagesDir)
-    .filter((file) => file.endsWith(".html"));
-
-  if (htmlFiles.length === 0) {
-    console.warn("⚠️  No HTML files found in pages directory");
-    return;
+    if (htmlFiles.length === 0) {
+      console.warn("⚠️  No HTML files found in pages directory");
+    } else {
+      htmlFiles.forEach((file) => {
+        const pageName = path.basename(file, ".html"); // e.g., "detail" or "form"
+        const pageJsFile = findJsFileForPage(pageName);
+        updateHtmlFile(path.join(pagesDir, file), cssFile, pageJsFile);
+      });
+    }
+  } else {
+    console.warn("⚠️  Pages directory not found:", pagesDir);
   }
 
-  htmlFiles.forEach((file) => {
-    updateHtmlFile(path.join(pagesDir, file), cssFile, jsFile);
-  });
-
-  console.log(`\n✅ Successfully updated ${htmlFiles.length} HTML file(s)`);
+  console.log(
+    `\n✅ Build complete! All HTML files updated with correct bundles.`
+  );
 }
 
 main();

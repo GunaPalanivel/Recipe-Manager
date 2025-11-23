@@ -1,8 +1,10 @@
 {
   "version": 2,
   "name": "recipe-manager",
-  "buildCommand": "npm run build",
+  "buildCommand": "npm install && npm run build",
   "outputDirectory": "dist",
+  "installCommand": "npm install",
+  "framework": null,
   "routes": [
     {
       "src": "/assets/(.*)",
