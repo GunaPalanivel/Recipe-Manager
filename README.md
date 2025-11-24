@@ -14,7 +14,7 @@ A modern, scalable single-page application (SPA) for recipe management with a re
 | [How to Run the App](#how-to-run-the-app)              | Installation, startup, and testing instructions |
 | [Data Structures](#data-structures-in-localstorage)    | Schema of data stored in localStorage           |
 | [Assumptions & Limitations](#assumptions--limitations) | Constraints and known boundaries                |
-| [Known Issues](#known-issues)                          | Current gaps or bugs                            |
+| [Known Issues](#known-issues-and-their-resolutions)    | Current gaps or bugs                            |
 | [Testing & Coverage](#testing--coverage)               | Quality assurance details                       |
 | [Contributing](#contributing)                          | Collaboration guidelines                        |
 | [License](#license)                                    | Legal usage terms                               |
@@ -66,28 +66,52 @@ Designed to be production-ready for both end users and developers, prioritizing 
 ## Project Structure
 
 ```
-recipe-manager/
-├── pages/
-│   ├── detail.html
-│   ├── form.html
-├── src/
-│   ├── assets/images/
-│   ├── css/
-│   │   ├── components/
-│   │   └── utils/
-│   ├── data/
-│   │   └── sample-recipes.js
-│   ├── js/
-│   │   ├── modules/
-│   │   └── utils/
-│   └── main.js
-├── tests/
+recipemanager/
+├── pages/                       # HTML pages for main views (detail, form)
+│   ├── detail.html              # Recipe detail page
+│   ├── form.html                # Recipe input/edit form page
+├── public/                      # Public static assets served directly
+│   └── assets/
+│       └── images/              # Recipe images sorted by difficulty + placeholder
+│           ├── easy/
+│           ├── hard/
+│           ├── medium/
+│           └── placeholder.jpg  # Default placeholder image
+├── src/                         # Source code files (JS, CSS, data, utils)
+│   ├── css/
+│   │   ├── components/          # CSS for reusable UI components
+│   │   ├── utils/               # CSS utility classes (helpers, resets)
+│   │   └── main.css             # Main stylesheet
+│   ├── data/
+│   │   └── sample-recipes.js    # Sample recipe data in JS format
+│   ├── js/
+│   │   ├── modules/             # Modular JS code (business logic, helpers)
+│   │   ├── crud.js              # CRUD operations for recipes
+│   │   ├── detail.js
+│   │   ├── form.js
+│   │   └── main.js              # Core entry-point JS file
+│   └── utils/                   # JS utility functions
+│       ├── constants.js         # Constant values used across the app
+│       └── helpers.js           # Helper functions
+├── tests/                       # Automated tests for different modules/features
+│   ├── crud.test.js
+│   ├── errorHandling.test.js
+│   ├── FilterManager.js
+│   ├── FilterManager.test.js
+│   ├── setup.js
+│   ├── storage.test.js
+│   └── validation.test.js
 ├── .gitignore
+├── .nvmrc                       # Node version manager config
 ├── CODE_OF_CONDUCT.md
 ├── CONTRIBUTING.md
-├── README.md
-├── index.html
-└── package.json
+├── index.html                   # Main landing page
+├── package-lock.json
+├── package.json
+├── README.md                    # Project overview and documentation
+├── update-built-html.js         # Build/update helper script
+├── vercel.json
+└── vite.config.js
 ```
 
 ---
@@ -258,33 +282,42 @@ Validation occurs upon creation and updates, with recovery logic for corrupted o
 
 ---
 
-## Known Issues
+## Known Issues and Their Resolutions
 
 ### Mobile Experience
 
-- Certain modals/dialogs may not fully trap virtual keyboard focus
-- Touch target sizes meet minimum standards but could be optimized further
+- **Issue:** Certain modals/dialogs did not fully trap virtual keyboard focus, causing accessibility challenges on mobile devices.
+- **Resolution:** Improved focus management by implementing keyboard trap logic and ensuring all modals are dismissible via keyboard. Increased touch target sizes beyond minimum standards for better usability on smaller screens.
 
 ### Image Handling
 
-- Image fetch may be slow if source server has high latency
-- No image caching beyond browser defaults
+- **Issue:** Image fetches were slow due to high latency from the source server, with no advanced image caching.
+- **Resolution:** Leveraged browser default caching with proper Cache-Control headers on Vercel deployment and optimized image file sizes for faster loading.
 
 ### Accessibility
 
-- Custom sliders could provide enhanced screen reader hints
-- Some dynamic content announcements could be more descriptive
+- **Issue:** Custom sliders lacked detailed screen reader hints; dynamic content changes were not always announced.
+- **Resolution:** Added appropriate ARIA attributes (`aria-valuemin`, `aria-valuemax`, `aria-valuenow`, `aria-live`) to sliders and dynamic result areas, improving screen reader interaction and announcements.
 
 ### Data Management
 
-- No data import/export functionality (planned for future release)
-- No backup/restore mechanism
-- Clearing browser data results in complete data loss
+- **Issue:** No data import/export or backup features; clearing browser storage resulted in complete data loss.
+- **Resolution:** Documented these limitations as upcoming features. For now, users are advised to manage data carefully. Handled storage quota exceeded errors gracefully by alerting users and prompting manual cleanup.
 
 ### Browser-Specific
 
-- Private browsing mode may disable localStorage in some browsers
-- localStorage quota exceeded errors need manual data cleanup
+- **Issue:** localStorage is disabled in some private browsing modes causing data persistence issues; storage quota limits may be exceeded leading to errors.
+- **Resolution:** Implemented check-and-handle logic for localStorage availability, fallback behaviors, and user alerts on quota issues to prevent crashes.
+
+### Deployment & Path Resolution (Additional Issues)
+
+- **Issue:** JS and CSS not loading on Vercel deployment due to path resolution problems between `/src/` folder and HTML files in `/pages/`.
+- **Resolution:** Updated all script and stylesheet paths in HTML to use relative references (e.g., from `/pages/detail.html` use `../src/js/detail.js`), ensuring correct asset loading on static hosting. Configured Vite’s build and Vercel deployment properly to serve static assets like `/assets/images` from the `public` folder.
+
+### UIManager Instantiation Error
+
+- **Issue:** The UIManager constructor threw an error when instantiated on pages without the required `recipe-list` element.
+- **Resolution:** Wrapped UIManager creation inside a DOM presence check (`if (document.getElementById("recipe-list")) {...}`) to ensure it runs only on relevant pages, preventing runtime errors during navigation.
 
 ---
 
